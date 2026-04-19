@@ -67,7 +67,47 @@ All work happens in the public GitHub organization. Everyone uses Git, GitHub Is
 
 ## 5. Technical Architecture – The Multi-Layered Model
 
-(unchanged – including the full RDF Reconciliation Pipeline with OpenRefine screenshots)
+#### 5.2.1 RDF Reconciliation Pipeline (Revised with Visuals)
+
+**Reconciliation** is the core semantic enrichment process. It links ambiguous or variant entities from harvested GLAM metadata (artists, places, materials, subjects, genres, etc.) to canonical identifiers in trusted authorities. This creates a rich, interoperable Linked Open Data graph that powers cross-collection discovery, multilingual support, and advanced IIIF applications.
+
+**Objectives**  
+- Reduce duplication and ambiguity  
+- Add value through hierarchies, related concepts, and multilingual labels  
+- Ensure provenance and traceability for every link  
+- Support uncertainty modeling for complex cases  
+- Align with FAIR principles  
+
+**5-Step Reconciliation Workflow**
+
+1. **Entity Extraction & Normalization**  
+   (unchanged)
+
+2. **Automated Candidate Generation**  
+   (unchanged – uses Getty, LCSH, Wikidata, fuzzy matching, and **OpenRefine**)
+
+3. **Human-in-the-Loop Review & Uncertainty Handling**  
+   Medium/low-confidence matches are reviewed in **OpenRefine** (highly recommended tool) or via GitHub Issues.
+
+   **Visual Guide to OpenRefine Reconciliation**
+<img width="906" height="620" alt="image" src="https://github.com/user-attachments/assets/1b00f471-6ee7-434e-84da-d38278707f92" />
+
+
+
+
+**Figure 1: OpenRefine main project view** – Facets on the left, data rows with reconciliation status, and the matching popup showing candidate details (e.g., artist name with lifespan and profession). Volunteers can match individual cells or all identical values at once.
+<img width="906" height="620" alt="image" src="https://github.com/user-attachments/assets/54a8629a-cca0-4014-ad5a-b61ad17a961f" />
+
+
+
+
+**Figure 2: Reconciliation setup dialog** – Choose services such as AAT search, TGN search, or Wikidata. You can include additional columns (e.g., dates or context) to improve matching accuracy and set auto-match thresholds.
+<img width="1292" height="723" alt="image" src="https://github.com/user-attachments/assets/345be9ad-b66b-4a02-bad1-4499f94690a0" />
+
+
+
+
+**Figure 3: OpenRefine project with cultural heritage data** – Example tabular view of museum-style records ready for reconciliation. Columns can include titles, descriptions, creators, and places.
 
 ---
 
