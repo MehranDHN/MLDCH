@@ -149,7 +149,7 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 - **Preferred sources** (in order):  
   1. IIIF Presentation API 2.0/3.0 compliant endpoints  
   2. RESTful APIs (Europeana, Digital Public Library of America, etc.)  
-  3. OAI-PMH  
+  3. XML, CSV, OAI-PMH  
   4. Ethical web scraping (only when no API exists and robots.txt permits)  
 - **Deliverables per connector**:  
   - Python module in `/connectors/`  
@@ -168,8 +168,8 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 **Reconciliation** is the heart of our semantic enrichment process. It links extracted entities from harvested GLAM metadata (e.g., artist names, place names, materials, subjects, genres) to canonical identifiers in external authorities. This creates a Linked Open Data (LOD) graph that is interoperable, queryable via SPARQL, and automatically enriches every IIIF manifest.
 
 **Why reconciliation matters**  
-- Prevents duplication (e.g., “Paris” vs. “Paris, France” vs. “Lutetia”)  
-- Enables cross-collection discovery (e.g., all objects linked to the same AAT concept for “oil painting”)  
+- Prevents duplication (e.g., “Esfahan” vs. “Isfahan” vs. “Исфахан”)  
+- Enables cross-collection discovery (e.g., all objects linked to the same AAT concept for [Calligraphy](http://vocab.getty.edu/page/aat/300053162) as a process vs [Calligraphy](http://vocab.getty.edu/page/aat/300266660) as visual works)  
 - Adds multilingual labels, hierarchies, and related concepts for free  
 - Powers advanced IIIF viewers and external tools (Europeana, Google Arts & Culture, etc.)
 
