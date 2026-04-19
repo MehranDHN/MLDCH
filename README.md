@@ -14,7 +14,7 @@
 The **Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)** is an open, volunteer-driven platform focused on the harvesting, integration, enrichment, and open redistribution of Persian cultural heritage resources, primarily sourced from Galleries, Libraries, Archives, and Museums (GLAM institutions) worldwide.
 The project also leverages the Internet Archive as a complementary open-access repository to surface and preserve important resources that have not been digitized or published by major GLAM institutions, along with materials generously contributed by community volunteers.
 
-![Project Banner](/images/ig_01.jpg.jpg) 
+[Project Banner](/images/ig_01.jpg.jpg) 
 
 Our **core output** is a massive, living collection of **multi-part IIIF (International Image Interoperability Framework) Collections and Manifests**, organized by curated subject categories. Every manifest is automatically reconciled against the following authoritative vocabularies:
 
