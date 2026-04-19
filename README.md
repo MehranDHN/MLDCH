@@ -1,6 +1,7 @@
 # Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)  
 **Community Policy & Volunteer Guide**  
 
+**Creator: Mehrandhn**
 **Version 1.0 (Draft)**  
 **Last updated:** April 2026  
 **Project repository:** https://github.com/MLDCHA (placeholder – to be created by core team)  
@@ -10,7 +11,7 @@
 
 ## 1. Introduction & Project Scope
 
-The **Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)** is an open, volunteer-driven platform that harvests, integrates, enriches, and redistributes cultural heritage data from Galleries, Libraries, Archives, and Museums (GLAM institutions) worldwide.  
+The **Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)** is an open, volunteer-driven platform purposal that harvests, integrates, enriches, and redistributes the Persian cultural heritage data from Galleries, Libraries, Archives, and Museums (GLAM institutions) worldwide.  
 
 Our **core output** is a massive, living collection of **multi-part IIIF (International Image Interoperability Framework) Collections and Manifests**, organized by curated subject categories. Every manifest is automatically reconciled against the following authoritative vocabularies:
 
@@ -61,8 +62,81 @@ All work happens in the public GitHub organization. Everyone uses Git, GitHub Is
 3. Complete the “Hello World” contribution (add your name to `VOLUNTEERS.md`)  
 
 ---
+## 4. Volunteer Onboarding Checklist
 
-## 4. Technical Architecture – The Multi-Layered Model
+Complete this checklist in your first 7–10 days to become a fully active community member. All steps are tracked via GitHub for transparency.
+
+### Step 1: Preparation (Day 1)
+- [ ] Read this entire **Community Policy & Volunteer Guide** (this document)
+- [ ] Review `CODE_OF_CONDUCT.md` and `CONTRIBUTING.md` (will be created in repo)
+- [ ] Create or update your GitHub profile with:
+  - A clear display name and bio mentioning your skills/interests (e.g., “Python + RDF enthusiast | Cultural heritage volunteer”)
+  - Link to your location/timezone if comfortable
+- [ ] Install required tools:
+  - Git
+  - Python 3.11+
+  - A good code editor (VS Code recommended with GitHub Copilot or extensions for Markdown/RDF)
+  - Optional but helpful: Protégé (for ontology work), Postman/Insomnia (for API testing)
+
+### Step 2: Join the Community (Day 1–2)
+- [ ] Go to the main repository and click “Fork”
+- [ ] Request to join the GitHub Organization via the pinned **Discussion #1 – “New Volunteer Onboarding”** (include your GitHub username and desired role)
+- [ ] Introduce yourself in the **#introductions** Discussion thread:
+  - Share your background, skills, why you joined, and any prior experience with Git, IIIF, RDF, or cultural heritage
+  - Mention your availability (hours per week)
+- [ ] Join any linked communication channels (e.g., GitHub Discussions, monthly Zoom calls – link in Discussion #2)
+
+### Step 3: First Contribution – “Hello World” (Day 2–3)
+- [ ] Add your name, GitHub handle, skills, and join date to `VOLUNTEERS.md` (create the file if it doesn’t exist) via a Pull Request
+- [ ] Use the PR template and request review from at least one existing member
+- [ ] Once merged, you are officially a listed volunteer!
+
+### Step 4: Skill Assessment & First Task (Day 3–7)
+- [ ] Browse the **Good First Issues** (label: `good-first-issue`) and claim one that matches your skills
+  - Examples:
+    - Documentation: Improve a README or glossary entry
+    - Harvesting: Test an existing connector and report issues
+    - Data: Manually reconcile 10 sample records against Wikidata/AAT
+    - General: Label or triage 5 open issues
+- [ ] Work on your task in a new branch (`feature/your-task-name` or `docs/your-task-name`)
+- [ ] Open a Pull Request with clear description and checklist
+- [ ] Participate in at least one community call or Discussion thread to ask questions
+
+### Step 5: Learning & Setup (Ongoing during onboarding)
+- [ ] Complete the **Core Tutorials** (links will be in `TUTORIALS.md`):
+  - Introduction to IIIF Manifests & Collections
+  - Basic RDF and JSON-LD for Cultural Heritage
+  - Our Reconciliation Pipeline (AAT/TGN/LCSH/Wikidata)
+  - SHACL Validation Basics
+- [ ] Set up your local development environment:
+  - Clone the repo
+  - Run `setup.sh` or follow `DEVELOPMENT.md` to install dependencies
+  - Run tests for at least one connector or the RDF pipeline
+- [ ] Familiarize yourself with key directories:
+  - `/connectors/` – Harvesting scripts
+  - `/data/enriched/` – RDF outputs
+  - `/iiif-collections/` – Generated IIIF files
+  - `/ontology/` – OWL & SHACL shapes
+  - `/docs/` – All documentation
+
+### Step 6: Activation & Role Confirmation (Day 7–10)
+- [ ] Attend or watch recording of the next **Onboarding Session** (moderated by Session Moderators)
+- [ ] Update your role in `VOLUNTEERS.md` once you feel confident (e.g., “Harvesting Team – Python contributor”)
+- [ ] Subscribe to notifications for labels relevant to your skills (`harvesting`, `rdf-enrichment`, `iiif`, `documentation`)
+- [ ] Optional: Propose one improvement or new idea in a GitHub Issue
+
+**Onboarding Complete!**  
+Once all checkboxes are done and your first PR is merged, you will receive the “Active Volunteer” badge/label in the organization. You can now claim more substantial issues and participate in voting for priorities.
+
+**Need help?**  
+- Post in `#onboarding-help` Discussion
+- Tag `@maintainers` in any issue
+- Session Moderators are available for 1:1 mentoring sessions
+
+---
+
+
+## 5. Technical Architecture – The Multi-Layered Model
 
 The platform is deliberately separated into clear, Git-managed layers so volunteers can focus on their expertise.
 
@@ -101,7 +175,7 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 
 ---
 
-## 5. Crowdfunding & Sustainability Model
+## 6. Crowdfunding & Sustainability Model
 
 The project runs **entirely through GitHub**:
 
@@ -118,7 +192,7 @@ The project runs **entirely through GitHub**:
 
 ---
 
-## 6. Volunteer Tasks & Contribution Workflow
+## 7. Volunteer Tasks & Contribution Workflow
 
 ### General Git Workflow (mandatory for all)
 1. Fork → Branch (naming: `feature/connector-europeana`, `fix/shacl-validation`)  
@@ -151,7 +225,7 @@ The project runs **entirely through GitHub**:
 
 ---
 
-## 7. Code of Conduct & Ethics
+## 8. Code of Conduct & Ethics
 
 - **Be kind, be constructive, assume best intent** (Contributor Covenant adopted)  
 - **Respect source institutions**: Never harvest restricted content; always credit original providers  
@@ -161,7 +235,7 @@ The project runs **entirely through GitHub**:
 
 ---
 
-## 8. Tools & Technology Stack (Recommended)
+## 9. Tools & Technology Stack (Recommended)
 
 - **Language**: Python 3.11+ (core), JavaScript/Node for front-end utilities  
 - **RDF**: rdflib + pyshacl  
@@ -173,7 +247,7 @@ The project runs **entirely through GitHub**:
 
 ---
 
-## 9. Getting Started – Your First Week
+## 10. Getting Started – Your First Week
 
 1. Star and fork the repo  
 2. Read `CONTRIBUTING.md` and this policy  
@@ -183,7 +257,7 @@ The project runs **entirely through GitHub**:
 
 ---
 
-## 10. Roadmap (High-Level)
+## 11. Roadmap (High-Level)
 
 **Phase 1 (0–3 months)**: Core connectors (Europeana, Getty, British Library, Smithsonian) + basic RDF pipeline  
 **Phase 2 (3–9 months)**: SHACL validation suite + first 5 thematic IIIF collections  
