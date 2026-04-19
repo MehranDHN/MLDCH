@@ -137,7 +137,6 @@ Once all checkboxes are done and your first PR is merged, you will receive the �
 
 
 ## 5. Technical Architecture – The Multi-Layered Model
-
 The platform is deliberately separated into clear, Git-managed layers so volunteers can focus on their expertise.
 
 ### Layer 1: Harvesting & Connectors (Data Acquisition)
@@ -159,11 +158,88 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
   - RDF (JSON-LD 1.1 preferred)  
   - Multiple OWL ontologies (CIDOC-CRM, EDM, BIBFRAME, Schema.org, plus custom extensions)  
   - **SHACL shapes** for validation and quality control  
-- **Reconciliation pipeline** (mandatory):  
-  1. Extract entities (persons, places, concepts, materials)  
-  2. Reconcile against AAT, TGN, LCSH, LCTGM, Wikidata using automated + human-in-the-loop tools  
-  3. Generate `skos:exactMatch`, `owl:sameAs`, `dcterms:conformsTo` statements  
-- **Output**: Validated RDF graphs stored in `/data/enriched/`  
+
+#### 5.2.1 RDF Reconciliation Pipeline (Detailed)
+**Reconciliation** is the heart of our semantic enrichment process. It links extracted entities from harvested GLAM metadata (e.g., artist names, place names, materials, subjects, genres) to canonical identifiers in external authorities. This creates a Linked Open Data (LOD) graph that is interoperable, queryable via SPARQL, and automatically enriches every IIIF manifest.
+
+**Why reconciliation matters**  
+- Prevents duplication (e.g., “Paris” vs. “Paris, France” vs. “Lutetia”)  
+- Enables cross-collection discovery (e.g., all objects linked to the same AAT concept for “oil painting”)  
+- Adds multilingual labels, hierarchies, and related concepts for free  
+- Powers advanced IIIF viewers and external tools (Europeana, Google Arts & Culture, etc.)
+
+**Mandatory 4-Step Reconciliation Workflow** (applied to every harvested record)
+
+1. **Entity Extraction**  
+   - Automatically parse harvested metadata using rule-based + NLP pipelines (spaCy + custom RDF patterns).  
+   - Target entity types:  
+     - Agents (persons, organizations)  
+     - Places (cities, regions, sites)  
+     - Concepts / Subjects (art styles, materials, techniques)  
+     - Works / Events (titles, dates, genres)  
+   - Output: Temporary RDF triples with `rdfs:label` and source provenance (`dcterms:provenance`).
+
+2. **Automated Matching (Batch Phase)**  
+   - Use our core reconciliation service (`/services/reconciler/`) built with:  
+     - **Official APIs** (preferred):  
+       - Getty Vocabularies API (AAT + TGN)  
+       - Library of Congress Linked Data Service (LCSH + LCTGM)  
+       - Wikidata SPARQL endpoint + MediaWiki API  
+     - **Libraries & Tools**:  
+       - `rdflib` + `pyshacl` for graph operations  
+       - Fuzzy + phonetic matching (`fuzzywuzzy` / `rapidfuzz`)  
+       - Embedding-based similarity (optional: Sentence-Transformers for advanced volunteers)  
+       - OpenRefine reconciliation API (for quick manual batches)  
+   - Generate candidate links with confidence scores (0–100).  
+   - Threshold rules:  
+     - ≥ 95% → auto-accept  
+     - 70–94% → flag for human review  
+     - < 70% → discard or route to manual queue  
+   - Create properties:  
+     - `skos:exactMatch` (strongest link)  
+     - `owl:sameAs` (for broader equivalence)  
+     - `dcterms:conformsTo` (links to the authority vocabulary itself)
+
+3. **Human-in-the-Loop Review**  
+   - All medium-confidence matches are turned into GitHub Issues (label: `reconciliation-review`).  
+   - Volunteers review via:  
+     - Web-based preview tool (included in repo) showing side-by-side source label vs. candidate authority record  
+     - Bulk CSV export/import for power users  
+     - Discussion threads for disputed cases  
+   - Data Science volunteers can claim batches (e.g., “Reconcile 500 Islamic manuscript places to TGN”).  
+   - Approved links are committed back to the RDF graph.
+
+4. **SHACL Validation & Finalization**  
+   - Run full SHACL validation (`pyshacl` via GitHub Action).  
+   - Required shapes include:  
+     - Every entity must have at least one `skos:exactMatch` to an approved vocabulary  
+     - No broken links (HTTP 200 checks)  
+     - Provenance tracking for every reconciliation decision  
+   - If validation passes → merge to `/data/enriched/`.  
+   - If fails → automatic PR comment with error report.
+
+**Reconciliation Deliverables per Volunteer Task**  
+- Updated reconciliation config files (`/ontology/reconciliation-mappings/`)  
+- New SHACL shapes for custom entity types  
+- Pull Request with before/after RDF samples  
+- Documentation of any new matching rules added
+
+**Example**  
+Harvested record: `creator: "Picasso, Pablo"`  
+→ Auto-matches to Wikidata Q5599 + AAT 300022164 (with confidence 98%)  
+→ Final triple:  
+```turtle
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<ex:artwork/123> crm:P14_carried_out_by <http://vocab.getty.edu/aat/300022164> ;
+                 skos:exactMatch <https://www.wikidata.org/entity/Q5599> .
+```
+
+**Pro Tips for Volunteers**  
+- Start with `good-first-issue` reconciliation tasks (small batches of 10–50 records).  
+- Always preserve original source labels in `rdfs:label` (we never overwrite).  
+- Use the `#reconciliation` Discussion channel for questions or new authority suggestions.  
 
 ### Layer 3: IIIF Collection Assembly (Output Layer)
 - **Goal**: Generate huge, categorized, multi-part IIIF Collections.  
@@ -174,7 +250,6 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 - **Automation**: GitHub Actions automatically regenerate collections when enriched data changes.  
 
 ---
-
 ## 6. Crowdfunding & Sustainability Model
 
 The project runs **entirely through GitHub**:
