@@ -11,7 +11,10 @@
 
 ## 1. Introduction & Project Scope
 
-The **Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)** is an open, volunteer-driven platform purposal that harvests, integrates, enriches, and redistributes the Persian cultural heritage data from Galleries, Libraries, Archives, and Museums (GLAM institutions) worldwide.  
+The **Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)** is an open, volunteer-driven platform focused on the harvesting, integration, enrichment, and open redistribution of Persian cultural heritage resources, primarily sourced from Galleries, Libraries, Archives, and Museums (GLAM institutions) worldwide.
+The project also leverages the Internet Archive as a complementary open-access repository to surface and preserve important resources that have not been digitized or published by major GLAM institutions, along with materials generously contributed by community volunteers.
+
+![Project Banner](/images/ig_01.jpg.jpg) 
 
 Our **core output** is a massive, living collection of **multi-part IIIF (International Image Interoperability Framework) Collections and Manifests**, organized by curated subject categories. Every manifest is automatically reconciled against the following authoritative vocabularies:
 
@@ -21,24 +24,26 @@ Our **core output** is a massive, living collection of **multi-part IIIF (Intern
 - **LCTGM** – Library of Congress Thesaurus for Graphic Materials  
 - **Wikidata** – for additional global identifiers and multilingual labels  
 
-The entire system is built as a **public GitHub-first community** with transparent governance, version-controlled workflows, and **crowdfunding integrated directly through GitHub Sponsors, GitHub Discussions, and issue-level sponsorships**. No central institution owns the data; the community collectively stewards it.
+The entire system is built as a **public GitHub-first community** with transparent agenda, governance, version-controlled workflows, and **crowdfunding integrated directly through GitHub Sponsors, GitHub Discussions, and issue-level sponsorships**. No central institution owns the data; the community collectively stewards it.
 
 **Key principles**  
 - Open standards only (IIIF, RDF, OWL, SHACL, Linked Open Data)  
 - Radical interoperability and reusability  
 - Ethical sourcing and respect for source institutions’ rights  
-- Merit-based contribution (skills > credentials)  
-- Full transparency via Git history  
+- Merit-based contribution (skills > creden fortials)  
+- Full transparency via Git history 
+- Full observability with **Knowldge Graph** for future planning
 
 ---
 
 ## 2. Mission & Vision
 
 **Mission**  
-To democratize access to cultural heritage by creating the largest open, semantically rich, IIIF-native aggregator maintained by a global volunteer community.
+To democratize access to high quality cultural heritage resources and data by creating the largest open, `semantically rich`, `IIIF-native` aggregator maintained by a global volunteer community.
 
 **Vision**  
-A single, freely queryable IIIF “super-collection” containing millions of reconciled digital objects, grouped into thematic sub-collections (e.g., “Islamic Manuscript Traditions”, “Industrial Revolution Visual Culture”, “Indigenous Art of Oceania”), ready for researchers, educators, artists, and GLAM institutions to reuse instantly.
+To create a single, freely queryable IIIF “super-collection” containing millions of reconciled digital objects, organized into rich thematic nested sub-collections (e.g., “Islamic Manuscript Traditions”, “Persian Architecture and Art”, “Oriental Photography”, “Illuminated Manuscripts”, “Historical Documents”, “Oral History”, and many others). These collections will be instantly accessible and reusable by researchers, educators, artists, and GLAM institutions worldwide.
+From a technical perspective, the platform will serve as a robust foundation for AI engines and intelligent agents to discover complex relationships between resources, forming a vast, boundary-free Big Data network of interconnected digital cultural heritage materials.
 
 ---
 
