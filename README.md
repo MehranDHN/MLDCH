@@ -283,35 +283,69 @@ The project runs **entirely through GitHub**:
 ## 7. Volunteer Tasks & Contribution Workflow
 
 ### General Git Workflow (mandatory for all)
-1. Fork → Branch (naming: `feature/connector-europeana`, `fix/shacl-validation`)  
+1. Fork → Branch (naming: `feature/connector-europeana`, `fix/shacl-validation`, `docs/glossary-update`, `moderation/session-summary`)  
 2. Work in small, reviewable commits  
 3. Open PR with checklist in template  
-4. Request review from at least two people (one technical, one domain)  
-5. Merge only after CI passes and SHACL validation is green  
+4. Request review from at least two people (one technical, one domain/non-technical where appropriate)  
+5. Merge only after CI passes and SHACL validation is green (for data-related PRs)  
 
 ### Role-Specific Task Examples
 
-**Harvesting Team**  
-- Create new connector for a IIIF-compliant museum
-- Create ETL pipelines for RESTFul API sevices  
-- Write test suite that validates output against IIIF spec  
-- Document any required API keys or scraping strategies  
+Non-technical roles are **crucial** to the project’s success. While technical teams build the infrastructure, non-technical volunteers ensure the platform is usable, well-documented, welcoming, high-quality, and community-driven.
 
-**Data Science Team**  
-- Map a new GLAM metadata schema to our RDF model  
-- Write SHACL shapes for a new subject category  
-- Run reconciliation campaigns (e.g., “Reconcile 10,000 place names to TGN”)  
+#### **Document Creators / Content Contributors**
+- Maintain and expand core documentation: `GLOSSARY.md`, `TUTORIALS.md`, `METADATA-GUIDELINES.md`  
+- Write beginner-friendly guides and educational resources  
+- Translate key documents  
+- Review public-facing content for clarity and cultural sensitivity 
+- `Europeana`, `Cultural Japan`, `Biblissima`and `LUX` R&D  
 
-**IIIF Assembly Team**  
-- Curate new subject category (propose via issue)  
-- Generate manifests with enriched metadata  
-- Review collection thumbnails and navigation structure  
+#### **Session Moderators**
+- Plan, host, and moderate weekly calls, hackathons, and onboarding sessions  
+- Monitor Discussions and enforce the Code of Conduct  
+- Prepare session summaries and celebrate contributor milestones  
 
-**Documentation Team**  
-- Maintain `GLOSSARY.md` (IIIF, RDF, SHACL, AAT, etc.)  
-- Write step-by-step tutorials for new volunteers  
-- Translate key documents 
-- `Europeana`, `Cultural Japan`, `Biblissima`and `LUX` R&D 
+#### **General Volunteers / Reviewers**
+- Test deliverables and review Pull Requests  
+- Label and triage issues  
+- Curate new thematic subject categories  
+- Perform manual enrichment and usability testing  
+- Assist with ethical outreach  
+
+#### **Ubiquitous Language: Bridging Humanities Experts and Technical Staff**
+
+**Humanities & Cultural Heritage Experts** bring deep domain knowledge. To collaborate effectively with technical staff, we maintain a **Ubiquitous Language** — a single, shared vocabulary used consistently in every Issue, PR, Discussion, and meeting.
+
+**Why this matters**  
+- Prevents errors in ontologies and metadata  
+- Makes technical work more accurate and reusable  
+- Builds respect and collaboration across backgrounds  
+
+**Practical Ways to Build & Maintain Ubiquitous Language**
+
+1. **Living Shared Glossary (`GLOSSARY.md`)**  
+   Humanities experts define domain terms; technical staff add code mappings. Every term includes plain-language definition + technical equivalent + example.
+
+2. **Joint Terminology Workshops**  
+   Monthly sessions: domain story by humanities expert followed by technical mapping.
+
+3. **Pairing & Mentoring**  
+   Pair humanities and technical volunteers on tasks; document new terms immediately.
+
+4. **Consistent Language in All Communication**  
+   Use glossary terms in Issues, PRs, code comments, and Discussions. Moderators gently enforce clarity.
+
+5. **Domain-Driven Examples**  
+   Every technical document must include real-world cultural heritage examples chosen by humanities volunteers.
+
+6. **Feedback Loops & Audits**  
+   Humanities experts perform language audits on PRs (label: `ubiquitous-language-review`).
+
+**How Humanities Experts Can Contribute Immediately**  
+- Claim `ubiquitous-language` or `glossary` issues  
+- Join terminology workshops  
+- Review PRs touching ontologies or metadata  
+
 
 ---
 
