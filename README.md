@@ -146,7 +146,7 @@ Once all checkboxes are done and your first PR is merged, you will receive the â
 
 ## 5. Technical Architecture â€“ The Multi-Layered Model
 The platform is deliberately separated into clear, Git-managed layers so volunteers can focus on their expertise.
-![MLDCHA Architecture Overview](images/mldcha_architecture_overview.svg)
+![MLDCHA Architecture Overview](https://raw.githubusercontent.com/MehranDHN/MLDCH/refs/heads/main/images/mldcha_architecture_overview.svg)
 ### Layer 1: Harvesting & Connectors (Data Acquisition)
 - **Goal**: Pull raw metadata and images from GLAM sources.  
 - **Preferred sources** (in order):  
