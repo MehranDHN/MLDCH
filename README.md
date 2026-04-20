@@ -340,7 +340,72 @@ Non-technical roles are **crucial** to the project’s success. While technical 
 
 6. **Feedback Loops & Audits**  
    Humanities experts perform language audits on PRs (label: `ubiquitous-language-review`).
+#### Contributing to Wikidata: Enhancing the Public Knowledge Base
 
+**Wikidata** serves as one of the world’s largest **open, public-access knowledge bases** and a central hub in the Linked Open Data ecosystem. It functions as a vast, collaborative ontology that anyone can edit, containing millions of structured entities (identified by **Q codes**) and relationships (defined by **P properties**). Its strength lies in its flexibility, multilingual support, and ability to connect disparate sources — making it ideal for cultural heritage projects like MLDCHA.
+
+By contributing to Wikidata, volunteers help create reliable, machine-readable links that our reconciliation pipeline can automatically use. Every edit improves discoverability not only for MLDCHA but for the entire global research community.
+
+**Why Wikidata is crucial for MLDCHA**  
+- It acts as a bridge between GLAM metadata, AAT, TGN, LCSH, and our IIIF manifests.  
+- It supports complex nested structures (e.g., a literary work containing episodes, characters, and specific manuscript copies).  
+- All reconciliations in MLDCHA aim to create strong `skos:exactMatch` or `owl:sameAs` links to Wikidata Q items.
+
+**How to Contribute – Practical Steps**  
+1. Create a free Wikidata account (uses the same login as Wikipedia).  
+2. Search for existing items before creating new ones.  
+3. Add or improve **statements** (facts), **qualifiers**, **references**, and **labels/aliases** in multiple languages.  
+4. Use the **“Add statement”** button and follow community guidelines (be bold but verify with reliable sources).  
+5. For complex cultural heritage items, document your sources clearly.  
+6. After editing, add the improved Q code to our reconciliation mappings or reconciliation-review issues in the MLDCHA repository.
+
+**Example: The Shahnama (Shahnameh) of Ferdowsi**
+
+The **Shahnama** (Q8279) is the iconic Persian epic poem written by Ferdowsi around 1000 CE. In Wikidata, the main item Q8279 represents the abstract **literary work** itself.
+
+Key statements typically include:
+- `instance of (P31)` → literary work / epic poem
+- `author (P50)` → Ferdowsi (Q43459)
+- `language of work (P407)` → Persian
+- `publication date (P577)` → circa 1010
+- `has part (P527)` or nested structures for its many episodes/stories
+
+The Shahnama contains dozens of **nested episodes** featuring historical, mythical, and fictional characters — both human and supernatural creatures (e.g., Rostam, Sohrab, Simurgh, Divs/demons). These can be modeled in Wikidata as:
+- Separate items for major episodes or characters
+- Linked back to Q8279 via properties like `part of (P361)` or `narrative entity (P840)`
+
+**Excellent Real-World Example: The Shahnama of Shah Tahmasp (Q3114572)**
+
+This 16th-century illuminated manuscript (also known as the Houghton Shahnameh) is one of the most magnificent copies ever produced, containing 258 miniatures.
+
+In Wikidata:
+- **Q3114572** represents this specific **manuscript** (a physical exemplar).
+- It is linked to the main literary work via the property **`exemplar of (P1574)`** → pointing to **Q8279** (Shahnama).
+
+This relationship allows us to distinguish between:
+- The abstract work (Q8279)
+- Specific manuscript copies (like Q3114572)
+- Individual folios or miniatures (which can have their own Q items linked as `part of` the manuscript)
+
+**How this helps MLDCHA**  
+When we harvest a digital image or metadata of a folio from the Shah Tahmasp Shahnama, our pipeline can reconcile it to Q3114572 → which links via P1574 to Q8279 → enabling rich connections to all other Shahnama-related resources, characters, episodes, and multilingual descriptions.
+
+**Volunteer Tasks Related to Wikidata**
+- Improve existing Shahnama-related items (add missing miniatures, folios, or references).
+- Create or enhance items for Persian cultural heritage entities that are missing or incomplete.
+- Add `IIIF Manifest` URLs or `digital representation of` statements when appropriate.
+- Participate in reconciliation campaigns focused on Persian literary works and manuscripts.
+- Document your edits in MLDCHA GitHub issues (label: `wikidata-contribution`).
+
+**Best Practices**
+- Always cite reliable sources (e.g., scholarly publications, museum catalogs).
+- Use Persian labels and aliases whenever possible.
+- Coordinate complex edits via the `#reconciliation` or new `#wikidata` Discussion channel in our repository.
+- For beginners: Start by improving labels, descriptions, or adding external identifiers on well-known items like Q8279.
+
+By actively contributing to Wikidata, you directly strengthen the semantic backbone of MLDCHA and help build a truly global, interconnected Persian cultural heritage knowledge graph.
+
+---
 **How Humanities Experts Can Contribute Immediately**  
 - Claim `ubiquitous-language` or `glossary` issues  
 - Join terminology workshops  
