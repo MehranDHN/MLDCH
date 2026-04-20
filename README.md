@@ -54,6 +54,7 @@ All work happens in the public GitHub organization. Everyone uses Git, GitHub Is
 | Role | Primary Responsibilities | Required Skills | Time Commitment |
 |------|---------------------------|-----------------|-----------------|
 | **Document Creators / Content Contributors** | Write policy, tutorials, glossaries, metadata guidelines | Markdown, research, clear writing | Flexible (1–5 hrs/week) |
+| **WikiData Editors** | Create/Edit WikiData's Q Codes | WikiData Ontology | Flexible (1–5 hrs/week) |
 | **Session Moderators** | Run weekly community calls, onboarding sessions, hackathons | Zoom/Discord moderation, facilitation | 2–4 hrs/week |
 | **Technical Staff – Harvesting Layer** | Build & maintain connectors for GLAM APIs | Python/Node.js, REST, IIIF API, web scraping (ethical), rate-limit handling | 5–15 hrs/week |
 | **Data Science Experts** | RDF transformation, ontology mapping, SHACL validation, reconciliation pipelines | RDFlib/rdflib, OWL, SHACL, SPARQL, entity linking (Wikidata, AAT) | 5–12 hrs/week |
@@ -176,12 +177,13 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 **Mandatory 4-Step Reconciliation Workflow** (applied to every harvested record)
 
 1. **Entity Extraction**  
-   - Automatically parse harvested metadata using rule-based + NLP pipelines (spaCy + custom RDF patterns).  
-   - Target entity types:  
+   - Automatically parse harvested metadata using rule-based + NLP pipelines (spaCy + custom RDF patterns) and direct supervising.  
+   - Target entity types:
+     - Events (Event-based approach)  
      - Agents (persons, organizations)  
      - Places (cities, regions, sites)  
-     - Concepts / Subjects (art styles, materials, techniques)  
-     - Works / Events (titles, dates, genres)  
+     - Concepts / Subjects (art styles, materials, techniques, processes)  
+     - Temporal Entities / Historical periods
    - Output: Temporary RDF triples with `rdfs:label` and source provenance (`dcterms:provenance`).
 
 2. **Automated Matching (Batch Phase)**  
@@ -194,7 +196,7 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
        - `rdflib` + `pyshacl` for graph operations  
        - Fuzzy + phonetic matching (`fuzzywuzzy` / `rapidfuzz`)  
        - Embedding-based similarity (optional: Sentence-Transformers for advanced volunteers)  
-       - OpenRefine reconciliation API (for quick manual batches)  
+       - `OpenRefine` reconciliation API (for quick manual batches)  
    - Generate candidate links with confidence scores (0–100).  
    - Threshold rules:  
      - ≥ 95% → auto-accept  
@@ -208,11 +210,13 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 3. **Human-in-the-Loop Review**  
    - All medium-confidence matches are turned into GitHub Issues (label: `reconciliation-review`).  
    - Volunteers review via:  
-     - Web-based preview tool (included in repo) showing side-by-side source label vs. candidate authority record  
+     - Web-based preview tool (included in repo) showing side-by-side source label vs. candidate authority record 
+     - Bulk JSON export/import for power users 
      - Bulk CSV export/import for power users  
      - Discussion threads for disputed cases  
    - Data Science volunteers can claim batches (e.g., “Reconcile 500 Islamic manuscript places to TGN”).  
    - Approved links are committed back to the RDF graph.
+   - Any successful Commits automaticaly trigers CI/CD pipeline and Knowledge Grap Generator.
 
 4. **SHACL Validation & Finalization**  
    - Run full SHACL validation (`pyshacl` via GitHub Action).  
@@ -230,20 +234,20 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 - Documentation of any new matching rules added
 
 **Example**  
-Harvested record: `creator: "Picasso, Pablo"`  
-→ Auto-matches to Wikidata Q5599 + AAT 300022164 (with confidence 98%)  
+Harvested record: `creator: "Mir Ali Tabrizi" or "Mir Mossavir"`  
+→ Auto-matches to Wikidata Q4115137 + AAT 300266660 (with confidence >=95%)  
 → Final triple:  
 ```turtle
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-<ex:artwork/123> crm:P14_carried_out_by <http://vocab.getty.edu/aat/300022164> ;
-                 skos:exactMatch <https://www.wikidata.org/entity/Q5599> .
+<ex:artwork/123> crm:P14_carried_out_by <http://vocab.getty.edu/aat/300266660> ;
+                 skos:exactMatch <https://www.wikidata.org/entity/Q4115137> .
 ```
 
 **Pro Tips for Volunteers**  
 - Start with `good-first-issue` reconciliation tasks (small batches of 10–50 records).  
-- Always preserve original source labels in `rdfs:label` (we never overwrite).  
+- Always preserve original source labels in `rdfs:label` (never overwrite).  
 - Use the `#reconciliation` Discussion channel for questions or new authority suggestions.  
 
 ### Layer 3: IIIF Collection Assembly (Output Layer)
@@ -251,7 +255,8 @@ Harvested record: `creator: "Picasso, Pablo"`
 - **Structure**:  
   - Top-level `collection.json` (the “super-collection”)  
   - Thematic sub-collections (e.g., `subject/islamic-art/collection.json`)  
-  - Every manifest must contain reconciled metadata in `metadata[]` and `seeAlso` links to RDF graphs  
+  - Every manifest must contain reconciled metadata in `metadata[]` and `seeAlso` links to RDF graphs
+  - IIIF Annotation for richer contents and navPlace Extension for needed Spatial Data  
 - **Automation**: GitHub Actions automatically regenerate collections when enriched data changes.  
 
 ---
@@ -264,7 +269,8 @@ The project runs **entirely through GitHub**:
 - **GitHub Discussions** for funding proposals and transparent budget reports  
 - All funds are used only for:  
   - Cloud credits for harvesting infrastructure  
-  - Domain & hosting  
+  - Domain & hosting
+  - Database and GraphDB services  
   - Occasional bounties for complex connectors  
   - Legal advice on cultural heritage rights  
 
@@ -284,7 +290,8 @@ The project runs **entirely through GitHub**:
 ### Role-Specific Task Examples
 
 **Harvesting Team**  
-- Create new connector for a IIIF-compliant museum  
+- Create new connector for a IIIF-compliant museum
+- Create ETL pipelines for RESTFul API sevices  
 - Write test suite that validates output against IIIF spec  
 - Document any required API keys or scraping strategies  
 
@@ -301,7 +308,8 @@ The project runs **entirely through GitHub**:
 **Documentation Team**  
 - Maintain `GLOSSARY.md` (IIIF, RDF, SHACL, AAT, etc.)  
 - Write step-by-step tutorials for new volunteers  
-- Translate key documents  
+- Translate key documents 
+- `Europeana`, `Cultural Japan`, `Biblissima`and `LUX` R&D 
 
 ---
 
@@ -318,12 +326,13 @@ The project runs **entirely through GitHub**:
 ## 9. Tools & Technology Stack (Recommended)
 
 - **Language**: Python 3.11+ (core), JavaScript/Node for front-end utilities  
-- **RDF**: rdflib + pyshacl  
+- **RDF**: rdflib + pyshacl + Jupiter Notebook 
 - **IIIF**: iiif-prezi3, loris/cantaloupe (optional)  
 - **Version control**: Git + GitHub  
 - **CI/CD**: GitHub Actions  
 - **Ontology editing**: Protégé (optional)  
 - **Communication**: GitHub Discussions + monthly community calls  
+- **GraphDB &Knowledge Graph**: ONTOTEXT GraphDB Desktop, Stardog, Neo4J 
 
 ---
 
