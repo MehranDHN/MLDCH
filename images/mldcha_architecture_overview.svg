@@ -1,0 +1,218 @@
+<svg width="100%" viewBox="0 0 680 920" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>MLDCHA Multi-Layered Architecture</title>
+<desc>Overview of the three-layer architecture showing harvesting, enrichment, and IIIF collection assembly with external vocabulary integrations</desc>
+
+<style>
+/* Color ramps for light/dark mode */
+.c-blue rect, .c-blue circle, .c-blue ellipse { fill: #E6F1FB; stroke: #185FA5; }
+.c-purple rect, .c-purple circle, .c-purple ellipse { fill: #EEEDFE; stroke: #534AB7; }
+.c-teal rect, .c-teal circle, .c-teal ellipse { fill: #E1F5EE; stroke: #0F6E56; }
+.c-coral rect, .c-coral circle, .c-coral ellipse { fill: #FAECE7; stroke: #993C1D; }
+.c-pink rect, .c-pink circle, .c-pink ellipse { fill: #FBEAF0; stroke: #993556; }
+.c-amber rect, .c-amber circle, .c-amber ellipse { fill: #FAEEDA; stroke: #854F0B; }
+.c-green rect, .c-green circle, .c-green ellipse { fill: #EAF3DE; stroke: #3B6D11; }
+.c-gray rect, .c-gray circle, .c-gray ellipse { fill: #F1EFE8; stroke: #5F5E5A; }
+
+/* Text colors */
+.c-blue .th, .c-blue .t { fill: #042C53; }
+.c-blue .ts { fill: #0C447C; }
+.c-purple .th, .c-purple .t { fill: #26215C; }
+.c-purple .ts { fill: #3C3489; }
+.c-teal .th, .c-teal .t { fill: #04342C; }
+.c-teal .ts { fill: #085041; }
+.c-coral .th, .c-coral .t { fill: #4A1B0C; }
+.c-coral .ts { fill: #712B13; }
+.c-pink .th, .c-pink .t { fill: #4B1528; }
+.c-pink .ts { fill: #72243E; }
+.c-amber .th, .c-amber .t { fill: #412402; }
+.c-amber .ts { fill: #633806; }
+.c-green .th, .c-green .t { fill: #173404; }
+.c-green .ts { fill: #27500A; }
+
+/* Default text */
+.th { font-family: sans-serif; font-size: 14px; font-weight: 500; fill: #2C2C2A; }
+.ts { font-family: sans-serif; font-size: 12px; font-weight: 400; fill: #444441; }
+.t { font-family: sans-serif; font-size: 14px; font-weight: 400; fill: #2C2C2A; }
+
+/* Arrow */
+.arr { stroke: #888780; stroke-width: 1.5; }
+
+/* Hover effect */
+.node { cursor: pointer; }
+.node:hover rect { opacity: 0.85; }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .c-blue rect, .c-blue circle, .c-blue ellipse { fill: #0C447C; stroke: #B5D4F4; }
+  .c-purple rect, .c-purple circle, .c-purple ellipse { fill: #3C3489; stroke: #CECBF6; }
+  .c-teal rect, .c-teal circle, .c-teal ellipse { fill: #085041; stroke: #9FE1CB; }
+  .c-coral rect, .c-coral circle, .c-coral ellipse { fill: #712B13; stroke: #F5C4B3; }
+  .c-pink rect, .c-pink circle, .c-pink ellipse { fill: #72243E; stroke: #F4C0D1; }
+  .c-amber rect, .c-amber circle, .c-amber ellipse { fill: #633806; stroke: #FAC775; }
+  .c-green rect, .c-green circle, .c-green ellipse { fill: #27500A; stroke: #C0DD97; }
+  
+  .c-blue .th, .c-blue .t { fill: #E6F1FB; }
+  .c-blue .ts { fill: #85B7EB; }
+  .c-purple .th, .c-purple .t { fill: #EEEDFE; }
+  .c-purple .ts { fill: #AFA9EC; }
+  .c-teal .th, .c-teal .t { fill: #E1F5EE; }
+  .c-teal .ts { fill: #5DCAA5; }
+  .c-coral .th, .c-coral .t { fill: #FAECE7; }
+  .c-coral .ts { fill: #F0997B; }
+  .c-pink .th, .c-pink .t { fill: #FBEAF0; }
+  .c-pink .ts { fill: #ED93B1; }
+  .c-amber .th, .c-amber .t { fill: #FAEEDA; }
+  .c-amber .ts { fill: #EF9F27; }
+  .c-green .th, .c-green .t { fill: #EAF3DE; }
+  .c-green .ts { fill: #97C459; }
+  
+  .th { fill: #C2C0B6; }
+  .ts { fill: #9C9A92; }
+  .t { fill: #C2C0B6; }
+  
+  .arr { stroke: #73726C; }
+}
+</style>
+
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Layer 1: Harvesting & Connectors -->
+<g class="c-blue">
+  <rect x="40" y="40" width="600" height="180" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="70" text-anchor="middle">Layer 1: Harvesting & Connectors</text>
+  <text class="ts" x="340" y="88" text-anchor="middle">Data acquisition from GLAM institutions</text>
+</g>
+
+<!-- GLAM Sources -->
+<g class="node c-teal">
+  <rect x="60" y="110" width="130" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="125" y="132" text-anchor="middle" dominant-baseline="central">IIIF API 2.0/3.0</text>
+</g>
+
+<g class="node c-teal">
+  <rect x="210" y="110" width="130" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="275" y="132" text-anchor="middle" dominant-baseline="central">RESTful APIs</text>
+</g>
+
+<g class="node c-teal">
+  <rect x="360" y="110" width="130" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="425" y="132" text-anchor="middle" dominant-baseline="central">XML/CSV/OAI</text>
+</g>
+
+<g class="node c-teal">
+  <rect x="510" y="110" width="110" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="565" y="132" text-anchor="middle" dominant-baseline="central">Ethical scrape</text>
+</g>
+
+<!-- Harvesting outputs -->
+<g class="node c-blue">
+  <rect x="230" y="170" width="220" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="340" y="192" text-anchor="middle" dominant-baseline="central">Raw metadata + JSON-LD output</text>
+</g>
+
+<!-- Arrow to Layer 2 -->
+<line x1="340" y1="220" x2="340" y2="270" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Layer 2: Integration & Enrichment -->
+<g class="c-purple">
+  <rect x="40" y="270" width="600" height="380" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="300" text-anchor="middle">Layer 2: Integration & Enrichment</text>
+  <text class="ts" x="340" y="318" text-anchor="middle">Semantic layer with RDF transformation and reconciliation</text>
+</g>
+
+<!-- Step 1: Entity Extraction -->
+<g class="node c-amber">
+  <rect x="60" y="340" width="560" height="56" rx="6" stroke-width="0.5"/>
+  <text class="th" x="340" y="360" text-anchor="middle" dominant-baseline="central">Step 1: Entity Extraction</text>
+  <text class="ts" x="340" y="380" text-anchor="middle" dominant-baseline="central">NLP pipelines extract agents, places, concepts, temporal entities</text>
+</g>
+
+<!-- Arrow -->
+<line x1="340" y1="396" x2="340" y2="416" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Step 2: Automated Matching -->
+<g class="node c-amber">
+  <rect x="60" y="416" width="560" height="56" rx="6" stroke-width="0.5"/>
+  <text class="th" x="340" y="436" text-anchor="middle" dominant-baseline="central">Step 2: Automated Matching</text>
+  <text class="ts" x="340" y="456" text-anchor="middle" dominant-baseline="central">Fuzzy matching + embedding similarity against external vocabularies</text>
+</g>
+
+<!-- External Vocabularies (side integration) -->
+<g class="c-green">
+  <rect x="60" y="490" width="115" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="117" y="512" text-anchor="middle" dominant-baseline="central">AAT + TGN</text>
+</g>
+<g class="c-green">
+  <rect x="195" y="490" width="100" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="245" y="512" text-anchor="middle" dominant-baseline="central">LCSH + LCTGM</text>
+</g>
+<g class="c-green">
+  <rect x="315" y="490" width="90" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="360" y="512" text-anchor="middle" dominant-baseline="central">Wikidata</text>
+</g>
+<g class="c-green">
+  <rect x="425" y="490" width="80" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="465" y="512" text-anchor="middle" dominant-baseline="central">SKOS</text>
+</g>
+<g class="c-green">
+  <rect x="525" y="490" width="95" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="572" y="512" text-anchor="middle" dominant-baseline="central">PROV-O</text>
+</g>
+
+<!-- Arrow -->
+<line x1="340" y1="472" x2="340" y2="490" class="arr" marker-end="url(#arrow)"/>
+<line x1="340" y1="526" x2="340" y2="546" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Step 3: Human Review -->
+<g class="node c-amber">
+  <rect x="60" y="546" width="560" height="56" rx="6" stroke-width="0.5"/>
+  <text class="th" x="340" y="566" text-anchor="middle" dominant-baseline="central">Step 3: Human-in-the-Loop Review</text>
+  <text class="ts" x="340" y="586" text-anchor="middle" dominant-baseline="central">Community volunteers review medium-confidence matches (70-94%)</text>
+</g>
+
+<!-- Arrow -->
+<line x1="340" y1="602" x2="340" y2="622" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Step 4: SHACL Validation -->
+<g class="node c-amber">
+  <rect x="60" y="622" width="560" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="340" y="644" text-anchor="middle" dominant-baseline="central">Step 4: SHACL Validation & Finalization</text>
+</g>
+
+<!-- Arrow to Layer 3 -->
+<line x1="340" y1="666" x2="340" y2="706" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Layer 3: IIIF Collection Assembly -->
+<g class="c-coral">
+  <rect x="40" y="706" width="600" height="180" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="736" text-anchor="middle">Layer 3: IIIF Collection Assembly</text>
+  <text class="ts" x="340" y="754" text-anchor="middle">Output layer generating categorized IIIF Collections</text>
+</g>
+
+<!-- IIIF Components -->
+<g class="node c-pink">
+  <rect x="60" y="776" width="180" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="150" y="798" text-anchor="middle" dominant-baseline="central">Super-Collection</text>
+</g>
+
+<g class="node c-pink">
+  <rect x="260" y="776" width="160" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="340" y="798" text-anchor="middle" dominant-baseline="central">Thematic sub-collections</text>
+</g>
+
+<g class="node c-pink">
+  <rect x="440" y="776" width="180" height="44" rx="6" stroke-width="0.5"/>
+  <text class="th" x="530" y="798" text-anchor="middle" dominant-baseline="central">Enriched Manifests</text>
+</g>
+
+<!-- Output indicators -->
+<g class="node c-coral">
+  <rect x="190" y="836" width="300" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="340" y="858" text-anchor="middle" dominant-baseline="central">Reusable, semantically-rich IIIF output</text>
+</g>
+
+</svg>
