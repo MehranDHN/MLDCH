@@ -1,9 +1,9 @@
-<svg width="100%" viewBox="0 0 680 920" role="img" xmlns="http://www.w3.org/2000/svg">
+<svg width="100%" viewBox="0 0 680 920" xmlns="http://www.w3.org/2000/svg">
 <title>MLDCHA Multi-Layered Architecture</title>
 <desc>Overview of the three-layer architecture showing harvesting, enrichment, and IIIF collection assembly with external vocabulary integrations</desc>
 
 <style>
-/* Color ramps for light/dark mode */
+/* Color ramps for light mode */
 .c-blue rect, .c-blue circle, .c-blue ellipse { fill: #E6F1FB; stroke: #185FA5; }
 .c-purple rect, .c-purple circle, .c-purple ellipse { fill: #EEEDFE; stroke: #534AB7; }
 .c-teal rect, .c-teal circle, .c-teal ellipse { fill: #E1F5EE; stroke: #0F6E56; }
@@ -35,7 +35,7 @@
 .t { font-family: sans-serif; font-size: 14px; font-weight: 400; fill: #2C2C2A; }
 
 /* Arrow */
-.arr { stroke: #888780; stroke-width: 1.5; }
+.arr { stroke: #888780; stroke-width: 1.5; fill: none; }
 
 /* Hover effect */
 .node { cursor: pointer; }
@@ -83,35 +83,35 @@
 <!-- Layer 1: Harvesting & Connectors -->
 <g class="c-blue">
   <rect x="40" y="40" width="600" height="180" rx="12" stroke-width="0.5"/>
-  <text class="th" x="340" y="70" text-anchor="middle">Layer 1: Harvesting & Connectors</text>
+  <text class="th" x="340" y="70" text-anchor="middle">Layer 1: Harvesting &amp; Connectors</text>
   <text class="ts" x="340" y="88" text-anchor="middle">Data acquisition from GLAM institutions</text>
 </g>
 
 <!-- GLAM Sources -->
 <g class="node c-teal">
   <rect x="60" y="110" width="130" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="125" y="132" text-anchor="middle" dominant-baseline="central">IIIF API 2.0/3.0</text>
+  <text class="th" x="125" y="135" text-anchor="middle">IIIF API 2.0/3.0</text>
 </g>
 
 <g class="node c-teal">
   <rect x="210" y="110" width="130" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="275" y="132" text-anchor="middle" dominant-baseline="central">RESTful APIs</text>
+  <text class="th" x="275" y="135" text-anchor="middle">RESTful APIs</text>
 </g>
 
 <g class="node c-teal">
   <rect x="360" y="110" width="130" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="425" y="132" text-anchor="middle" dominant-baseline="central">XML/CSV/OAI</text>
+  <text class="th" x="425" y="135" text-anchor="middle">XML/CSV/OAI</text>
 </g>
 
 <g class="node c-teal">
   <rect x="510" y="110" width="110" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="565" y="132" text-anchor="middle" dominant-baseline="central">Ethical scrape</text>
+  <text class="th" x="565" y="135" text-anchor="middle">Ethical scrape</text>
 </g>
 
 <!-- Harvesting outputs -->
 <g class="node c-blue">
   <rect x="230" y="170" width="220" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="340" y="192" text-anchor="middle" dominant-baseline="central">Raw metadata + JSON-LD output</text>
+  <text class="ts" x="340" y="191" text-anchor="middle">Raw metadata + JSON-LD output</text>
 </g>
 
 <!-- Arrow to Layer 2 -->
@@ -120,15 +120,15 @@
 <!-- Layer 2: Integration & Enrichment -->
 <g class="c-purple">
   <rect x="40" y="270" width="600" height="380" rx="12" stroke-width="0.5"/>
-  <text class="th" x="340" y="300" text-anchor="middle">Layer 2: Integration & Enrichment</text>
+  <text class="th" x="340" y="300" text-anchor="middle">Layer 2: Integration &amp; Enrichment</text>
   <text class="ts" x="340" y="318" text-anchor="middle">Semantic layer with RDF transformation and reconciliation</text>
 </g>
 
 <!-- Step 1: Entity Extraction -->
 <g class="node c-amber">
   <rect x="60" y="340" width="560" height="56" rx="6" stroke-width="0.5"/>
-  <text class="th" x="340" y="360" text-anchor="middle" dominant-baseline="central">Step 1: Entity Extraction</text>
-  <text class="ts" x="340" y="380" text-anchor="middle" dominant-baseline="central">NLP pipelines extract agents, places, concepts, temporal entities</text>
+  <text class="th" x="340" y="360" text-anchor="middle">Step 1: Entity Extraction</text>
+  <text class="ts" x="340" y="380" text-anchor="middle">NLP pipelines extract agents, places, concepts, temporal entities</text>
 </g>
 
 <!-- Arrow -->
@@ -137,41 +137,41 @@
 <!-- Step 2: Automated Matching -->
 <g class="node c-amber">
   <rect x="60" y="416" width="560" height="56" rx="6" stroke-width="0.5"/>
-  <text class="th" x="340" y="436" text-anchor="middle" dominant-baseline="central">Step 2: Automated Matching</text>
-  <text class="ts" x="340" y="456" text-anchor="middle" dominant-baseline="central">Fuzzy matching + embedding similarity against external vocabularies</text>
+  <text class="th" x="340" y="436" text-anchor="middle">Step 2: Automated Matching</text>
+  <text class="ts" x="340" y="456" text-anchor="middle">Fuzzy matching + embedding similarity against external vocabularies</text>
 </g>
 
-<!-- External Vocabularies (side integration) -->
+<!-- External Vocabularies -->
 <g class="c-green">
   <rect x="60" y="490" width="115" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="117" y="512" text-anchor="middle" dominant-baseline="central">AAT + TGN</text>
+  <text class="ts" x="117" y="511" text-anchor="middle">AAT + TGN</text>
 </g>
 <g class="c-green">
   <rect x="195" y="490" width="100" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="245" y="512" text-anchor="middle" dominant-baseline="central">LCSH + LCTGM</text>
+  <text class="ts" x="245" y="511" text-anchor="middle">LCSH + LCTGM</text>
 </g>
 <g class="c-green">
   <rect x="315" y="490" width="90" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="360" y="512" text-anchor="middle" dominant-baseline="central">Wikidata</text>
+  <text class="ts" x="360" y="511" text-anchor="middle">Wikidata</text>
 </g>
 <g class="c-green">
   <rect x="425" y="490" width="80" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="465" y="512" text-anchor="middle" dominant-baseline="central">SKOS</text>
+  <text class="ts" x="465" y="511" text-anchor="middle">SKOS</text>
 </g>
 <g class="c-green">
   <rect x="525" y="490" width="95" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="572" y="512" text-anchor="middle" dominant-baseline="central">PROV-O</text>
+  <text class="ts" x="572" y="511" text-anchor="middle">PROV-O</text>
 </g>
 
-<!-- Arrow -->
+<!-- Arrows -->
 <line x1="340" y1="472" x2="340" y2="490" class="arr" marker-end="url(#arrow)"/>
 <line x1="340" y1="526" x2="340" y2="546" class="arr" marker-end="url(#arrow)"/>
 
 <!-- Step 3: Human Review -->
 <g class="node c-amber">
   <rect x="60" y="546" width="560" height="56" rx="6" stroke-width="0.5"/>
-  <text class="th" x="340" y="566" text-anchor="middle" dominant-baseline="central">Step 3: Human-in-the-Loop Review</text>
-  <text class="ts" x="340" y="586" text-anchor="middle" dominant-baseline="central">Community volunteers review medium-confidence matches (70-94%)</text>
+  <text class="th" x="340" y="566" text-anchor="middle">Step 3: Human-in-the-Loop Review</text>
+  <text class="ts" x="340" y="586" text-anchor="middle">Community volunteers review medium-confidence matches (70-94%)</text>
 </g>
 
 <!-- Arrow -->
@@ -180,7 +180,7 @@
 <!-- Step 4: SHACL Validation -->
 <g class="node c-amber">
   <rect x="60" y="622" width="560" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="340" y="644" text-anchor="middle" dominant-baseline="central">Step 4: SHACL Validation & Finalization</text>
+  <text class="th" x="340" y="647" text-anchor="middle">Step 4: SHACL Validation &amp; Finalization</text>
 </g>
 
 <!-- Arrow to Layer 3 -->
@@ -196,23 +196,23 @@
 <!-- IIIF Components -->
 <g class="node c-pink">
   <rect x="60" y="776" width="180" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="150" y="798" text-anchor="middle" dominant-baseline="central">Super-Collection</text>
+  <text class="th" x="150" y="801" text-anchor="middle">Super-Collection</text>
 </g>
 
 <g class="node c-pink">
   <rect x="260" y="776" width="160" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="340" y="798" text-anchor="middle" dominant-baseline="central">Thematic sub-collections</text>
+  <text class="th" x="340" y="801" text-anchor="middle">Thematic Collections</text>
 </g>
 
 <g class="node c-pink">
   <rect x="440" y="776" width="180" height="44" rx="6" stroke-width="0.5"/>
-  <text class="th" x="530" y="798" text-anchor="middle" dominant-baseline="central">Enriched Manifests</text>
+  <text class="th" x="530" y="801" text-anchor="middle">Enriched Manifests</text>
 </g>
 
 <!-- Output indicators -->
 <g class="node c-coral">
   <rect x="190" y="836" width="300" height="36" rx="6" stroke-width="0.5"/>
-  <text class="ts" x="340" y="858" text-anchor="middle" dominant-baseline="central">Reusable, semantically-rich IIIF output</text>
+  <text class="ts" x="340" y="857" text-anchor="middle">Reusable, semantically-rich IIIF output</text>
 </g>
 
 </svg>
