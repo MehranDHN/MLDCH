@@ -146,7 +146,7 @@ Once all checkboxes are done and your first PR is merged, you will receive the �
 
 ## 5. Technical Architecture – The Multi-Layered Model
 The platform is deliberately separated into clear, Git-managed layers so volunteers can focus on their expertise.
-
+![MLDCHA Architecture Overview](images/mldcha_architecture_overview.svg)
 ### Layer 1: Harvesting & Connectors (Data Acquisition)
 - **Goal**: Pull raw metadata and images from GLAM sources.  
 - **Preferred sources** (in order):  
@@ -464,4 +464,51 @@ Together we are building the future of open cultural heritage.
 
 **— The MLDCHA Community**
 
-Created with the assistance of Grok, Claude and NotebookLM.
+## Credits & Acknowledgments
+
+### Project Leadership
+**Founder & Primary Maintainer:** Mehrandhn  
+**Repository:** [github.com/MehranDHN/MLDCH](https://github.com/MehranDHN/MLDCH)
+
+### AI Assistance & Development Tools
+This documentation was created with assistance from:
+- **Claude** (Anthropic) – Documentation structure, policy framework, and technical guidance
+- **Grok** (xAI) – Ideation and content refinement
+- **NotebookLM** (Google) – Research synthesis and organization
+
+### Technology Stack & Standards
+Built on open standards maintained by:
+- **IIIF Consortium** – International Image Interoperability Framework
+- **W3C** – RDF, OWL, SHACL, and SKOS specifications
+- **Getty Research Institute** – Art & Architecture Thesaurus (AAT), Thesaurus of Geographic Names (TGN)
+- **Library of Congress** – Subject Headings (LCSH) and Thesaurus for Graphic Materials (LCTGM)
+- **Wikidata** – Collaborative knowledge base
+- **CIDOC-CRM** – Conceptual Reference Model for cultural heritage
+
+### Institutional Inspiration
+This project draws inspiration from exemplary digital cultural heritage initiatives:
+- **Europeana** – European digital cultural heritage aggregation
+- **Digital Public Library of America (DPLA)**
+- **Biblissima** – French manuscript aggregation
+- **Cultural Japan** – Japanese heritage digitization
+- **LUX (Yale Collections Discovery)**
+
+### Community Contributors
+Active volunteer contributors are listed in `VOLUNTEERS.md`. We welcome and acknowledge all contributors regardless of background or technical expertise.
+
+### Funding & Sustainability
+MLDCHA operates as a transparent, community-funded project via:
+- GitHub Sponsors (organization level)
+- Issue-level sponsorships
+- All financial reports published monthly in `FINANCES.md`
+
+### Rights & Licensing
+- **Documentation & Data:** CC-BY-SA 4.0
+- **Code:** MIT License
+- **Content sourced from GLAM institutions:** Respective institutional licenses apply
+- **Respect for source institutions:** We acknowledge and credit all original content providers
+
+### Special Thanks
+To the global GLAM community for their commitment to open access, and to all volunteers who contribute their time, expertise, and passion to preserving and sharing Persian cultural heritage.
+
+---
