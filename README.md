@@ -364,3 +364,5 @@ Welcome to the team!
 Together we are building the future of open cultural heritage.  
 
 **— The MLDCHA Community**
+
+Created with the assistance of Grok, Claude and NotebookLM.
