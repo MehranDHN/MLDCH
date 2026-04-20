@@ -45,6 +45,9 @@ To democratize access to high quality cultural heritage resources and data by cr
 To create a single, freely queryable IIIF “super-collection” containing millions of reconciled digital objects, organized into rich thematic nested sub-collections (e.g., “Islamic Manuscript Traditions”, “Persian Architecture and Art”, “Oriental Photography”, “Illuminated Manuscripts”, “Historical Documents”, “Oral History”, and many others). These collections will be instantly accessible and reusable by researchers, educators, artists, and GLAM institutions worldwide.
 From a technical perspective, the platform will serve as a robust foundation for AI engines and intelligent agents to discover complex relationships between resources, forming a vast, boundary-free Big Data network of interconnected digital cultural heritage materials.
 
+
+<video src="/images/Connecting_Our_Digital_Past.mp4" controls="controls">
+</video>
 ---
 
 ## 3. Community Structure & Roles
