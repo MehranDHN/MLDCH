@@ -366,7 +366,25 @@ ex:Creation_Event rdf:type crm:E65_Creation ;
     crm:P4_has_time-span ex:Creation_TimeSpan ;
     crm:P7_took_place_at ex:Isfahan .
 
+ex:Isfahan rdf:type crm:E53_Place ;
+    rdfs:label "Isfahan"@en ;
+    crm:P89_falls_within ex:Safavid_Era ;
+    owl:sameAs wd:Q42053;
+    crm:P2_has_type tgn:7017459 . # TGN: Isfahan
 
+# Safavid era
+ex:Safavid_Era rdf:type crm:E4_Period ;
+    rdfs:label "Safavid Era"@en ;
+    rdfs:label "سلسله صفوی"@fa ;    
+    crm:P4_has_time-span ex:Safavid_TimeSpan ;
+    crm:P1_is_identified_by wd:Q161205 . # Wikidata ID for Safavid dynasty
+
+# Creation timespan
+ex:Creation_TimeSpan rdf:type crm:E52_Time-Span ;
+    rdfs:label "16th century CE"@en ;
+    rdfs:label "قرن شانزدهم ميلادی"@fa ;    
+    crm:P82a_begin_of_the_begin "1501-01-01"^^xsd:date ;
+    crm:P82b_end_of_the_end "1600-12-31"^^xsd:date .    
 ```
 
 
