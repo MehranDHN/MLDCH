@@ -260,7 +260,7 @@ Harvested record: `creator: "Mir Ali Tabrizi" or "Mir Mossavir"`
   - Every manifest must contain reconciled metadata in `metadata[]` and `seeAlso` links to RDF graphs
   - IIIF Annotation for richer contents and navPlace Extension for needed Spatial Data  
 - **Automation**: GitHub Actions automatically regenerate collections when enriched data changes.  
-
+![MLDCHA Architecture Overview](/images/MLDCHA_IIIF_Collection.jpg)
 ---
 ## 6. Crowdfunding & Sustainability Model
 
