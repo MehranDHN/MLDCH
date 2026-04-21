@@ -46,7 +46,7 @@ To create a single, freely queryable IIIF “super-collection” containing mill
 From a technical perspective, the platform will serve as a robust foundation for AI engines and intelligent agents to discover complex relationships between resources, forming a vast, boundary-free Big Data network of interconnected digital cultural heritage materials.
 
 
-### The differences between Availability and Acceptability
+### The differences between Availability and Accessibility
 Availability means a cultural resource exists and is preserved under institutional custody it is “there” in a literal sense. Accessibility, however, means that people can actually discover, view, study, enjoy, interpret, and build upon it without unreasonable technical, linguistic, geographic, or economic barriers.
 Availability is necessary but not sufficient. 
 
