@@ -45,7 +45,6 @@ To democratize access to high quality cultural heritage resources and data by cr
 To create a single, freely queryable IIIF “super-collection” containing millions of reconciled digital objects, organized into rich thematic nested sub-collections (e.g., “Islamic Manuscript Traditions”, “Persian Architecture and Art”, “Oriental Photography”, “Illuminated Manuscripts”, “Historical Documents”, “Oral History”, and many others). These collections will be instantly accessible and reusable by researchers, educators, artists, and GLAM institutions worldwide.
 From a technical perspective, the platform will serve as a robust foundation for AI engines and intelligent agents to discover complex relationships between resources, forming a vast, boundary-free Big Data network of interconnected digital cultural heritage materials.
 
-![Overview](/images/Connecting_Our_Digital_Past.mp4)
 
 ### The differences between Availability and Acceptability
 Availability means a cultural resource exists and is preserved under institutional custody it is “there” in a literal sense. Accessibility, however, means that people can actually discover, view, study, enjoy, interpret, and build upon it without unreasonable technical, linguistic, geographic, or economic barriers.
@@ -54,7 +53,7 @@ Availability is necessary but not sufficient.
 A masterpiece can be safely stored in a museum vault, locked behind a paywall, buried in outdated databases, or separated by language and distance, yet remain effectively inaccessible to the communities that value it most.
 
 In the case of Persian cultural heritage, this gap is particularly visible. Many artifacts are preserved in major international institutions and technically “available,” but they lack rich, structured, interoperable metadata and modern presentation technologies. This prevents meaningful engagement by researchers, educators, artists, Iranian communities, and the general public.
-Rich structured metadata, delivered through open standards such as RDF (Resource Description Framework) combined with IIIF (International Image Interoperability Framework), is one of the most powerful ways to bridge this gap. RDF provides machine-readable, linked semantic descriptions (connecting objects to people, places, concepts, and historical contexts), while IIIF enables high-resolution, zoomable, annotatable, and interoperable image viewing. Together, they transform static records into dynamic, reusable, and truly accessible digital cultural resources.
+Rich structured metadata, delivered through open standards such as `RDF` (Resource Description Framework) combined with `IIIF` (International Image Interoperability Framework), is one of the most powerful ways to bridge this gap. RDF provides machine-readable, linked semantic descriptions (connecting objects to people, places, concepts, and historical contexts), while IIIF enables high-resolution, zoomable, annotatable, and interoperable image viewing. Together, they transform static records into dynamic, reusable, and truly accessible digital cultural resources.
 
 ### Closing the Gap: What MLDCHA Can Realistically Do
 Lets focus on a real example an ornate 48.3 cm diameter steel shield from the early Qajar period in Iran's history, currently in the [Saint Louis Art Museum](https://www.slam.org/collection/objects/2592/)'s collection, praising its highly detailed engravings, gold inlays, and Persian calligraphy visible on the attached.
@@ -80,13 +79,12 @@ MLDCHA focuses on practical, scalable actions that turn availability into genuin
 - Advocacy + funding
   Individuals can amplify the conversation (as the original tweet does), push museums via social media, or support grants specifically for digitization of Islamic/Persian collections. Foundations, tech companies, and governments already fund this—it's a matter of prioritizing it.
 
-The shield itself in our typical example is stunning evidence of Qajar craftsmanship. Its real power, though, isn't in being "safe" in St. Louis—it's in being seen, studied, and loved by as many people as possible, especially those whose ancestors made it. Availability protects the object. Accessibility protects its meaning.  
+The shield itself in our typical example is stunning evidence of Qajar craftsmanship. Its real power, though, isn't in being "safe" in St. Louis, it's in being seen, studied, and loved by as many people as possible, especially those whose ancestors made it. Availability protects the object. Accessibility protects its meaning.  
 We already have the technology to make almost any preserved cultural resource truly accessible. What we need now is the will—and the smart, collaborative strategies—to close the gap. 
 
 ### Availability protects the physical object. Accessibility protects its living cultural meaning.
-MLDCHA exists to close this critical gap by combining high-quality images with rich, structured, semantic metadata delivered through RDF and IIIF standards. With community effort, we can make Persian cultural heritage truly discoverable, reusable, and meaningful for scholars, students, artists, and the wider public — regardless of physical location or institutional barriers.
+MLDCHA intents to close this critical gap by combining high-quality images with rich, structured, semantic metadata delivered through RDF and IIIF standards. With community effort, we can make Persian cultural heritage truly discoverable, reusable, and meaningful for scholars, students, artists, and the wider public — regardless of physical location or institutional barriers.
  
-
 ---
 
 ## 3. Community Structure & Roles
@@ -417,6 +415,8 @@ The Shahnama contains dozens of **nested episodes** featuring historical, mythic
 **Excellent Real-World Example: The Shahnama of Shah Tahmasp (Q3114572)**
 
 This 16th-century illuminated manuscript (also known as the Houghton Shahnameh) is one of the most magnificent copies ever produced, containing 258 miniatures.
+
+[Example of decomposing Hoghton Shahnameh](https://github.com/MehranDHN/Shahnama-Of-Shah-Tahmsap)
 
 In Wikidata:
 - **Q3114572** represents this specific **manuscript** (a physical exemplar).
