@@ -39,13 +39,50 @@ The entire system is built as a **public GitHub-first community** with transpare
 ## 2. Mission & Vision
 
 **Mission**  
-To democratize access to high quality cultural heritage resources and data by creating the largest open, `semantically rich`, `IIIF-native` aggregator maintained by a global volunteer community.
+To democratize access to high quality cultural heritage resources and data by creating the largest open, `semantically rich`, `IIIF-native` aggregator maintained by a global volunteer community. The primary focus are in digital resources that scattered around the word spetialy for those that seems available but they are not accessible.
 
 **Vision**  
 To create a single, freely queryable IIIF “super-collection” containing millions of reconciled digital objects, organized into rich thematic nested sub-collections (e.g., “Islamic Manuscript Traditions”, “Persian Architecture and Art”, “Oriental Photography”, “Illuminated Manuscripts”, “Historical Documents”, “Oral History”, and many others). These collections will be instantly accessible and reusable by researchers, educators, artists, and GLAM institutions worldwide.
 From a technical perspective, the platform will serve as a robust foundation for AI engines and intelligent agents to discover complex relationships between resources, forming a vast, boundary-free Big Data network of interconnected digital cultural heritage materials.
 
 ![Overview](/images/Connecting_Our_Digital_Past.mp4)
+
+### The differences between Availability and Acceptability
+Availability means a cultural resource exists and is preserved under institutional custody — it is “there” in a literal sense. Accessibility, however, means that people can actually discover, view, study, enjoy, interpret, and build upon it without unreasonable technical, linguistic, geographic, or economic barriers.
+Availability is necessary but not sufficient. A masterpiece can be safely stored in a museum vault, locked behind a paywall, buried in outdated databases, or separated by language and distance, yet remain effectively inaccessible to the communities that value it most.
+In the case of Persian cultural heritage, this gap is particularly visible. Many artifacts are preserved in major international institutions and technically “available,” but they lack rich, structured, interoperable metadata and modern presentation technologies. This prevents meaningful engagement by researchers, educators, artists, Iranian communities, and the general public.
+Rich structured metadata, delivered through open standards such as RDF (Resource Description Framework) combined with IIIF (International Image Interoperability Framework), is one of the most powerful ways to bridge this gap. RDF provides machine-readable, linked semantic descriptions (connecting objects to people, places, concepts, and historical contexts), while IIIF enables high-resolution, zoomable, annotatable, and interoperable image viewing. Together, they transform static records into dynamic, reusable, and truly accessible digital cultural resources.
+
+### Closing the Gap: What MLDCHA Can Realistically Do
+Lets focus on a real example an ornate 48.3 cm diameter steel shield from the early Qajar period in Iran's history, currently in the [Saint Louis Art Museum](https://www.slam.org/collection/objects/2592/)'s collection, praising its highly detailed engravings, gold inlays, and Persian calligraphy visible on the attached.
+
+MLDCHA focuses on practical, scalable actions that turn availability into genuine accessibility:
+
+![Qajar Shield (sipar)](https://d23gjylftzdlen.cloudfront.net/db_photo/d4279/u16742792/1851957dig_1_o2.jpg)
+
+- Full-spectrum digitization as the default
+  High-resolution 2D photography is an excellent starting point. When museums make these images openly available, we can harvest them, enrich them with structured metadata, and present them through IIIF manifests that allow deep zooming, side-by-side comparison, and annotation. There are thousands examples [here in IIIFDexir](https://github.com/MehranDHN/MLDCH).
+- Rich structured metadata using RDF + IIIF
+  We enrich raw images and basic records with detailed, linked metadata: artist/school, historical period, materials and techniques, iconography, inscriptions (with transcription and translation), provenance, and connections to related works. Using RDF and standard ontologies, these descriptions become interoperable and queryable. IIIF then makes the visual content interactive and embeddable anywhere, turning isolated museum records into living parts of a global Persian cultural heritage network.
+- Virtual repatriation through technology
+  Instead of physical return (which involves complex legal and preservation issues), we create high-fidelity digital surrogates. These can be explored in Persian, with contextual layers added by Iranian scholars and community experts, making the artifact meaningfully accessible to its cultural homeland and the diaspora.  
+- Open-access-first policies and Linked Open Data
+  We encourage institutions to provide downloadable high-resolution files together with rich, multilingual metadata and API access. MLDCHA aggregates and reconciles this data, linking it to Wikidata (Q8279 for the Shahnama, for example), AAT, TGN, and other authorities, so developers, educators, and AI tools can easily build new experiences around the objects.
+- Collaborative digital heritage projects
+  We actively partner with Iranian individuals, diaspora experts, and passionate volunteers. Joint curation, shared metadata enrichment, and co-created thematic IIIF collections help transform “object held in a Western museum” into “shared human heritage openly accessible to all.”
+- Physical access as a complement, not the only option
+  Rotating loans, traveling exhibitions, or even pop-up displays in Tehran or other Iranian cities are powerful—but they’re expensive and temporary. Digital access is permanent and scales globally.
+- Leverage modern tools (AI, crowdsourcing, open platforms)
+  AI can assist with transcription and translation of Persian inscriptions, while crowdsourcing allows Persian-speaking volunteers to add cultural context, correct attributions, or propose new connections. The enriched data is then integrated into Wikipedia, Wikidata, Google Arts & Culture, and our own IIIF super-collection.
+- Advocacy + funding
+  Individuals can amplify the conversation (as the original tweet does), push museums via social media, or support grants specifically for digitization of Islamic/Persian collections. Foundations, tech companies, and governments already fund this—it's a matter of prioritizing it.
+
+The shield itself in our typical example is stunning evidence of Qajar craftsmanship. Its real power, though, isn't in being "safe" in St. Louis—it's in being seen, studied, and loved by as many people as possible, especially those whose ancestors made it. Availability protects the object. Accessibility protects its meaning.  
+We already have the technology to make almost any preserved cultural resource truly accessible. What we need now is the will—and the smart, collaborative strategies—to close the gap. 
+
+### Availability protects the physical object. Accessibility protects its living cultural meaning.
+MLDCHA exists to close this critical gap by combining high-quality images with rich, structured, semantic metadata delivered through RDF and IIIF standards. With community effort, we can make Persian cultural heritage truly discoverable, reusable, and meaningful for scholars, students, artists, and the wider public — regardless of physical location or institutional barriers.
+ 
 
 ---
 
