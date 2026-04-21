@@ -285,6 +285,91 @@ Harvested record: `creator: "Mir Ali Tabrizi" or "Mir Mossavir"`
                  skos:exactMatch <https://www.wikidata.org/entity/Q4115137> .
 ```
 
+َMore complex CRM Example:
+
+```turtle
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix aat: <http://vocab.getty.edu/aat/> .
+@prefix ex: <http://example.org/resource/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tgn: <http://vocab.getty.edu/tgn/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Physical artwork (Murraqa folio)
+ex:Murraqa_Artwork rdf:type crm:E22_Man-Made_Object ;
+    rdfs:label "Safavid Murraqa Folio by Mīr Imād"@en ;
+    rdfs:label "چليپايی از مير عماد در يک مرقع صفوی"@fa ;    
+    crm:P108i_was_produced_by ex:Creation_Event ;
+    crm:P3_has_note "This folio from a Persian Murraqa features Safavid illumination and calligraphy attributed to Mīr ‘Imād."@en ;
+    crm:P45_consists_of ex:Layout, ex:Illumination_Style, ex:Signing_Section,ex:Ink_Material  ;
+    crm:P43_has_dimension ex:Dimension_Murraqa_Artwork ;
+    crm:P102_has_title "Murraqa Folio - Walters Art Museum"@en ;
+    crm:P2_has_type aat:300265870 ; # AAT: Murraqa
+    crm:P50_has_current_keeper ex:Walters_Art_Museum .
+
+# Digital representation of the artwork
+ex:Digital_Image rdf:type crm:E24_Physical_Man-Made_Thing ;
+    rdfs:label "High-resolution Digital Image of Murraqa Folio"@en ;
+    crm:P62_depicts ex:Murraqa_Artwork ;
+    crm:P1_is_identified_by [
+        rdf:type crm:E42_Identifier ;
+        rdfs:label "Walters Art Museum Identifier W 668, folio 2a"@en ;
+        crm:P2_has_type aat:300404670 ; # AAT: Museum Object Numbers
+        crm:P190_has_symbolic_content "W 668, folio 2a"@en
+    ] ;    
+    crm:P2_has_type aat:300128343 ; # AAT: Digital Images
+    crm:P43_has_dimension ex:Dimension_Digital_Image ;
+    crm:P75_possesses ex:Linguistic_Content ;
+    crm:P3_has_note "Published by the Walters Art Museum with identifier W 668, on page 2a."@en 
+
+# Medium-resolution digital image
+ex:Digital_Image_Medium rdf:type crm:E24_Physical_Man-Made_Thing ;
+    rdfs:label "Medium-resolution Digital Image of Murraqa Folio"@en ;
+    crm:P2_has_type aat:300128343 ;
+    crm:P43_has_dimension ex:Dimension_Medium_Resolution ;
+    crm:P67_refers_to ex:Murraqa_Artwork ;
+    crm:P1_has_url <https://www.thedigitalwalters.org/Data/WaltersManuscripts/W668/data/W.668/sap/W668_000050_sap.jpg> 
+
+# Signing section
+ex:Signing_Section rdf:type crm:E55_Type ;
+    rdfs:label "Signing Section by Mīr Imad"@en ;
+    rdfs:label "رقم قطعه از ميرعماد"@fa ; 
+    crm:P190_has_symbolic_content "مشقه عمادالحسنی"@fa ;    
+    crm:P14_carried_out_by ex:Mir_Imad ;
+    crm:P3_has_note "Signature by the calligrapher at the bottom left of the folio."@en .
+
+# Linguistic content (Verses by Hafez)
+ex:Linguistic_Content rdf:type crm:E33_Linguistic_Object ;
+    rdfs:label "Verses from Hafez"@en ;
+    rdfs:label "ابياتی از حافظ"@fa ;    
+    crm:P190_has_symbolic_content "گرچه زندانست بر صاحبدلان | هر کجا بويی ز وصل يار نيست | هيچ زندان عاشق مشتاق را | تنگتر از صحبت اغيار نيست"@fa;
+    crm:P3_has_note "Two verses from Hafez, emphasizing the poetic and aesthetic significance of the folio."@en ;
+    crm:P67_refers_to ex:Hafez_Verses .
+    
+# The calligrapher
+ex:Mir_Imad rdf:type crm:E21_Person ;
+    rdfs:label "Mīr Imād"@en ;
+    rdfs:label "ميرعماد"@fa ;    
+    crm:P1_is_identified_by wd:Q6872075 ; # Wikidata ID
+    crm:P2_has_type aat:300025107 ; # AAT: Calligrapher
+    crm:P74_has_current_or_former_residence tgn:7017459 ; # TGN: Isfahan
+    crm:P98i_was_born_in ex:Safavid_Era .
+
+# The creation event for the Murraqa artwork
+ex:Creation_Event rdf:type crm:E65_Creation ;
+    rdfs:label "Creation of Safavid Murraqa Folio"@en ;
+    crm:P16_used_specific_object ex:Dange_Ghalam_3mm ;
+    crm:P108_has_produced ex:Murraqa_Artwork ;    
+    crm:P14_carried_out_by ex:Mir_Imad ;
+    crm:P4_has_time-span ex:Creation_TimeSpan ;
+    crm:P7_took_place_at ex:Isfahan .
+
+
+```
+
+
 **Pro Tips for Volunteers**  
 - Start with `good-first-issue` reconciliation tasks (small batches of 10–50 records).  
 - Always preserve original source labels in `rdfs:label` (never overwrite).  
