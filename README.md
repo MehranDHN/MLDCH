@@ -48,8 +48,11 @@ From a technical perspective, the platform will serve as a robust foundation for
 ![Overview](/images/Connecting_Our_Digital_Past.mp4)
 
 ### The differences between Availability and Acceptability
-Availability means a cultural resource exists and is preserved under institutional custody — it is “there” in a literal sense. Accessibility, however, means that people can actually discover, view, study, enjoy, interpret, and build upon it without unreasonable technical, linguistic, geographic, or economic barriers.
-Availability is necessary but not sufficient. A masterpiece can be safely stored in a museum vault, locked behind a paywall, buried in outdated databases, or separated by language and distance, yet remain effectively inaccessible to the communities that value it most.
+Availability means a cultural resource exists and is preserved under institutional custody it is “there” in a literal sense. Accessibility, however, means that people can actually discover, view, study, enjoy, interpret, and build upon it without unreasonable technical, linguistic, geographic, or economic barriers.
+Availability is necessary but not sufficient. 
+
+A masterpiece can be safely stored in a museum vault, locked behind a paywall, buried in outdated databases, or separated by language and distance, yet remain effectively inaccessible to the communities that value it most.
+
 In the case of Persian cultural heritage, this gap is particularly visible. Many artifacts are preserved in major international institutions and technically “available,” but they lack rich, structured, interoperable metadata and modern presentation technologies. This prevents meaningful engagement by researchers, educators, artists, Iranian communities, and the general public.
 Rich structured metadata, delivered through open standards such as RDF (Resource Description Framework) combined with IIIF (International Image Interoperability Framework), is one of the most powerful ways to bridge this gap. RDF provides machine-readable, linked semantic descriptions (connecting objects to people, places, concepts, and historical contexts), while IIIF enables high-resolution, zoomable, annotatable, and interoperable image viewing. Together, they transform static records into dynamic, reusable, and truly accessible digital cultural resources.
 
