@@ -61,7 +61,7 @@ Lets focus on a real example an ornate 48.3 cm diameter steel shield from the ea
 
 MLDCHA focuses on practical, scalable actions that turn availability into genuine accessibility:
 
-![Qajar Shield (sipar)](https://d23gjylftzdlen.cloudfront.net/db_photo/d4279/u16742792/1851957dig_1_o2.jpg)
+![Qajar Shield (sipar)](/images/1851957dig_1_o2.jpg)
 
 - Full-spectrum digitization as the default
   High-resolution 2D photography is an excellent starting point. When museums make these images openly available, we can harvest them, enrich them with structured metadata, and present them through IIIF manifests that allow deep zooming, side-by-side comparison, and annotation. There are thousands examples [here in IIIFDexir](https://github.com/MehranDHN/MLDCH).
