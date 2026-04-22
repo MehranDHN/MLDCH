@@ -39,7 +39,7 @@ The entire system is built as a **public GitHub-first community** with transpare
 ## 2. Mission & Vision
 
 **Mission**  
-To democratize access to high quality cultural heritage resources and data by creating the largest open, `semantically rich`, `IIIF-native` aggregator maintained by a global volunteer community. The primary focus are in digital resources that scattered around the word spetialy for those that seems available but they are not accessible.
+To democratize access to high quality cultural heritage resources and data by creating the largest open, `semantically rich`, `IIIF-native` aggregator maintained by a global volunteer community. The primary focus are in digital resources that scattered around the world spetialy for those that seems available but they are not accessible.
 
 **Vision**  
 To create a single, freely queryable IIIF “super-collection” containing millions of reconciled digital objects, organized into rich thematic nested sub-collections (e.g., “Islamic Manuscript Traditions”, “Persian Architecture and Art”, “Oriental Photography”, “Illuminated Manuscripts”, “Historical Documents”, “Oral History”, and many others). These collections will be instantly accessible and reusable by researchers, educators, artists, and GLAM institutions worldwide.
@@ -207,6 +207,7 @@ The platform is deliberately separated into clear, Git-managed layers so volunte
 
 #### 5.2.1 RDF Reconciliation Pipeline (Detailed)
 **Reconciliation** is the heart of our semantic enrichment process. It links extracted entities from harvested GLAM metadata (e.g., artist names, place names, materials, subjects, genres) to canonical identifiers in external authorities. This creates a Linked Open Data (LOD) graph that is interoperable, queryable via SPARQL, and automatically enriches every IIIF manifest.
+![IIIF Collections Architecture](images/iiif_collections_rdf_architecture.svg)
 
 **Why reconciliation matters**  
 - Prevents duplication (e.g., “Esfahan” vs. “Isfahan” vs. “Исфахан”)  
@@ -403,6 +404,459 @@ ex:Creation_TimeSpan rdf:type crm:E52_Time-Span ;
 - **Automation**: GitHub Actions automatically regenerate collections when enriched data changes.  
 ![MLDCHA Architecture Overview](/images/MLDCHA_IIIF_Collection.jpg)
 ---
+
+#### Binding all pieces together with IIIF Collections
+We don't modify GLAM-provided IIIF Manifests; we'll try to keep them immutable.
+Why this is important?
+- **Data provenance integrity** - Original manifests serve as canonical sources
+- **Institutional trust** - GLAMs retain authoritative control over their descriptive metadata
+- **Sustainability** - If a GLAM updates their manifest, you can re-harvest without conflict
+- **Legal clarity** - You're aggregating, not transforming institutional data
+- **Interoperability** - Other tools can consume original manifests without your interpretation layer
+
+This also mirrors `Europeana`, `DPLA`, and `Biblissima`'s aggregation models.
+
+#### IIIF Collections as Metadata Container Layer
+Embed enriched RDF metadata in IIIF Collection entries, not in manifests. This is exactly the approach that heve been used in [IIIFDexir](https://github.com/MehranDHN/MLDCH).
+
+```
+Root Collection
+├── metadata: [hierarchical OWL ontology annotations]
+├── collections: [
+│     Sub-Collection: Islamic Manuscripts
+│     ├── metadata: [subject-specific enrichment]
+│     ├── manifests: [
+│     │     {
+│     │       "@id": "https://glam.org/manifest/ms123",  ← Original manifest URL
+│     │       "label": "Shahnama, ca. 1522",
+│     │       "metadata": [                              ← YOUR enrichment layer
+│     │         {"label": "Wikidata", "value": "<a href='https://www.wikidata.org/entity/Q3114572'>Q3114572</a>"},
+│     │         {"label": "AAT Subject", "value": "<a href='http://vocab.getty.edu/aat/300265821'>Islamic manuscripts</a>"},
+│     │         {"label": "LCSH", "value": "Epic poetry, Persian"},
+│     │         {"label": "TGN Place", "value": "<a href='http://vocab.getty.edu/tgn/7001535'>Isfahan</a>"}
+│     │       ],
+│     │       "seeAlso": [                               ← Link to full RDF graph
+│     │         {
+│     │           "@id": "https://mldcha.org/rdf/manifest/ms123.ttl",
+│     │           "format": "text/turtle",
+│     │           "profile": "http://www.cidoc-crm.org/cidoc-crm/"
+│     │         }
+│     │       ]
+│     │     }
+│     │   ]
+│     └── within: "https://mldcha.org/collection/root"   ← Bidirectional link
+│   ]
+```
+
+Advantages of this pattern:
+
+- **IIIF Presentation API 3.0 compliance** - Collections naturally support metadata arrays
+- **Non-invasive enrichment** - Reconciled vocabularies live in Collection entries, not source manifests
+- **Queryable hierarchy** - within creates traversable graph structure
+- **Single source of truth** - Collection = index + metadata; Manifest = original content
+- **RDF pipeline efficiency** - Collections provide structured entry points for knowledge graph generation
+
+#### Bidirectional Integrity (within + collections arrays)
+Your observation: Two-way linking ensures graph consistency.
+This is critical for:
+
+```turtle
+# In RDF/Turtle representation
+<https://mldcha.org/collection/islamic-manuscripts> a iiif:Collection ;
+    dcterms:isPartOf <https://mldcha.org/collection/root> ;  # "within" upward link
+    dcterms:hasPart <https://mldcha.org/manifest/ms123> .    # "collections/manifests" downward link
+
+<https://mldcha.org/manifest/ms123> a iiif:Manifest ;
+    dcterms:isPartOf <https://mldcha.org/collection/islamic-manuscripts> ;
+    owl:sameAs <https://glam-institution.org/iiif/original-manifest> ;  # Canonical source
+    skos:exactMatch <http://www.wikidata.org/entity/Q3114572> .
+```
+Graph integrity benefits:
+
+- SPARQL traversal - Navigate from leaf to root or root to leaf
+- Validation - SHACL shapes can verify bidirectional consistency
+- Cycle detection - Prevent circular references
+- Orphan detection - Find manifests not linked to any collection    
+
+#### Collections as RDF Pipeline Entry Point
+Your strategy: Use Collections (not raw GLAM APIs) as the authoritative source for knowledge graph generation.
+Why this is the right decision:
+
+```python
+# Pseudo-code for RDF pipeline in Google Colab
+
+# Step 1: Fetch root collection
+root_collection = fetch_json("https://mldcha.org/collection/root.json")
+
+# Step 2: Recursive traversal
+def build_knowledge_graph(collection_uri):
+    collection = fetch_json(collection_uri)
+    
+    # Extract enriched metadata from THIS collection
+    for manifest_entry in collection.get("manifests", []):
+        manifest_uri = manifest_entry["@id"]
+        enriched_metadata = manifest_entry.get("metadata", [])
+        
+        # Create RDF triples from enriched metadata
+        graph.add((manifest_uri, dcterms.subject, extract_aat_uri(enriched_metadata)))
+        graph.add((manifest_uri, owl.sameAs, extract_wikidata_uri(enriched_metadata)))
+        
+        # Fetch original manifest for physical/structural metadata
+        original_manifest = fetch_json(manifest_uri)
+        graph.add((manifest_uri, iiif.hasCanvas, original_manifest["sequences"][0]["canvases"]))
+    
+    # Recurse into sub-collections
+    for sub_collection_uri in collection.get("collections", []):
+        build_knowledge_graph(sub_collection_uri)
+
+# Start from root
+build_knowledge_graph("https://mldcha.org/collection/root.json")
+```
+
+Advantages:
+- Versioning - Your collections have timestamps; GLAM manifests may not
+- Batch processing - Collections provide natural chunking for parallel processing
+- Incremental updates - Only re-process collections that changed
+- Quality control - Collections only include manifests that passed SHACL validation
+
+Future Improvement  & Refinements
+1. Use IIIF Presentation API 3.0 seeAlso for RDF Links
+```json
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://mldcha.org/collection/islamic-manuscripts",
+  "type": "Collection",
+  "label": { "en": ["Islamic Manuscripts"] },
+  "seeAlso": [
+    {
+      "id": "https://mldcha.org/rdf/collection/islamic-manuscripts.ttl",
+      "type": "Dataset",
+      "format": "text/turtle",
+      "profile": "http://www.cidoc-crm.org/cidoc-crm/",
+      "label": { "en": ["RDF representation (CIDOC-CRM)"] }
+    },
+    {
+      "id": "https://mldcha.org/rdf/collection/islamic-manuscripts.jsonld",
+      "type": "Dataset",
+      "format": "application/ld+json",
+      "profile": "https://linked.art/ns/v1/linked-art.json",
+      "label": { "en": ["RDF representation (Linked Art)"] }
+    }
+  ],
+  "items": [
+    {
+      "id": "https://british-library.org/iiif/ms-12345/manifest",
+      "type": "Manifest",
+      "label": { "fa": ["شاهنامه فردوسی"], "en": ["Shahnama of Ferdowsi"] },
+      "metadata": [
+        {
+          "label": { "en": ["Wikidata Entity"] },
+          "value": { "none": ["<a href='https://www.wikidata.org/entity/Q3114572'>Q3114572</a>"] }
+        },
+        {
+          "label": { "en": ["AAT Subject"] },
+          "value": { "none": ["<a href='http://vocab.getty.edu/aat/300265821'>Islamic manuscripts</a>"] }
+        }
+      ],
+      "seeAlso": [
+        {
+          "id": "https://mldcha.org/rdf/manifest/ms-12345.ttl",
+          "type": "Dataset",
+          "format": "text/turtle"
+        }
+      ]
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://mldcha.org/collection/root",
+      "type": "Collection"
+    }
+  ]
+}
+```
+Key points:
+
+- `seeAlso` at Collection level → Full RDF graph for that thematic domain
+- `seeAlso` at Manifest entry level → RDF for that specific object
+- `partOf` replaces deprecated `within` (IIIF 3.0)
+
+2. Manifest Entry Metadata Strategy
+**Option A**: Inline Enrichment (current approach)
+```json
+"metadata": [
+  {"label": {"en": ["Wikidata"]}, "value": {"none": ["<a href='...'>Q3114572</a>"]}}
+]
+```
+✅ Pros: Human-readable in IIIF viewers
+❌ Cons: HTML in values; not machine-actionable
+
+**Option B**: Structured metadata + seeAlso for RDF and other structured data(XML, JSOn, ...)
+```json
+"metadata": [
+  {
+    "label": { "en": ["Subject"] },
+    "value": { 
+      "en": ["Islamic manuscripts"],
+      "fa": ["نسخه‌های خطی اسلامی"]
+    }
+  }
+],
+"seeAlso": [
+  {
+    "id": "http://vocab.getty.edu/aat/300265821",
+    "type": "Dataset",
+    "format": "application/ld+json",
+    "label": { "en": ["AAT: Islamic manuscripts"] }
+  }
+]
+```
+✅ Pros: Machine-readable; multilingual; clean separation
+✅ Better: IIIF viewers can fetch and display AAT labels
+
+3. Collection Hierarchy Design Pattern
+```
+Root Collection
+├── By Subject (LCSH/AAT-based)
+│   ├── Islamic Manuscripts
+│   ├── Persian Miniature Painting
+│   └── Qajar Photography
+├── By Place (TGN-based)
+│   ├── Isfahan
+│   ├── Tabriz
+│   └── Tehran
+├── By Time Period
+│   ├── Safavid (1501-1736)
+│   ├── Qajar (1789-1925)
+│   └── Pahlavi (1925-1979)
+└── By Institution
+    ├── British Library
+    ├── Smithsonian
+    └── Internet Archive
+```
+**Critical rule**: A manifest can appear in multiple collections (many-to-many).
+Implementation:
+
+```json
+// islamic-manuscripts collection
+{
+  "items": [
+    {"id": "https://bl.org/iiif/ms123/manifest", "type": "Manifest"}
+  ]
+}
+
+// persian-architecture collection (SAME manifest)
+{
+  "items": [
+    {"id": "https://bl.org/iiif/ms123/manifest", "type": "Manifest"}
+  ]
+}
+```
+IN RDF:
+
+```turtle
+<https://bl.org/iiif/ms123/manifest> dcterms:isPartOf 
+    <https://mldcha.org/collection/islamic-manuscripts> ,
+    <https://mldcha.org/collection/persian-architecture> ,
+    <https://mldcha.org/collection/safavid> .
+```
+4. Internet Archive Integration
+For non-IIIF sources:
+
+```python
+# Workflow
+1. Harvest metadata from IA item page
+2. Use IA's IIIF Manifest creator: 
+   https://iiif.archive.org/iiif/3/{identifier}/manifest.json
+3. Add to MLDCHA collection with enrichment:
+
+{
+  "id": "https://iiif.archive.org/iiif/3/shahnama-1522/manifest.json",
+  "type": "Manifest",
+  "label": {"en": ["Shahnama (Internet Archive copy)"]},
+  "metadata": [
+    {
+      "label": {"en": ["Source Institution"]},
+      "value": {"en": ["Internet Archive"]}
+    },
+    {
+      "label": {"en": ["Original Digitization"]},
+      "value": {"none": ["<a href='https://archive.org/details/shahnama-1522'>archive.org/details/shahnama-1522</a>"]}
+    }
+  ],
+  "seeAlso": [
+    {
+      "id": "https://mldcha.org/rdf/manifest/ia-shahnama-1522.ttl",
+      "type": "Dataset"
+    }
+  ]
+}
+```
+
+5. SHACL Validation for Collection Integrity
+
+```turtle
+# shapes/collection-integrity.ttl
+
+mldcha:CollectionShape a sh:NodeShape ;
+    sh:targetClass iiif:Collection ;
+    sh:property [
+        sh:path dcterms:hasPart ;
+        sh:minCount 1 ;  # Collection must contain something
+        sh:message "Collection must contain at least one manifest or sub-collection"
+    ] ;
+    sh:property [
+        sh:path dcterms:isPartOf ;
+        sh:maxCount 1 ;  # Each collection has exactly one parent (except root)
+        sh:message "Collection must have exactly one parent (use 'partOf')"
+    ] .
+
+mldcha:ManifestEntryShape a sh:NodeShape ;
+    sh:targetClass iiif:Manifest ;
+    sh:property [
+        sh:path dcterms:isPartOf ;
+        sh:minCount 1 ;  # Manifest must be in at least one collection
+        sh:message "Manifest must belong to at least one collection"
+    ] ;
+    sh:property [
+        sh:path rdfs:seeAlso ;
+        sh:minCount 1 ;  # Must have RDF representation
+        sh:pattern "^https://mldcha\\.org/rdf/" ;
+        sh:message "Manifest must have seeAlso link to MLDCHA RDF endpoint"
+    ] .
+```
+6. Google Colab RDF Pipeline Architecture
+
+```python
+# notebooks/01_collection_to_rdf.ipynb
+
+from rdflib import Graph, Namespace, URIRef, Literal
+from rdflib.namespace import RDF, RDFS, DCTERMS, SKOS, OWL
+import requests
+
+# Define namespaces
+IIIF = Namespace("http://iiif.io/api/presentation/3#")
+CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm/")
+MLDCHA = Namespace("https://mldcha.org/ontology/")
+
+def fetch_collection(uri):
+    """Fetch IIIF Collection JSON"""
+    return requests.get(uri).json()
+
+def extract_enrichment_from_metadata(metadata_array):
+    """Parse metadata array to extract reconciled URIs"""
+    enrichment = {}
+    for entry in metadata_array:
+        label = entry.get("label", {}).get("en", [""])[0]
+        value = entry.get("value", {}).get("none", [""])[0]
+        
+        # Extract URI from HTML anchor
+        if "<a href=" in value:
+            uri = value.split("href='")[1].split("'")[0]
+            
+            if "wikidata.org" in uri:
+                enrichment["wikidata"] = URIRef(uri)
+            elif "vocab.getty.edu/aat" in uri:
+                enrichment["aat"] = URIRef(uri)
+            elif "vocab.getty.edu/tgn" in uri:
+                enrichment["tgn"] = URIRef(uri)
+    
+    return enrichment
+
+def build_graph_from_collection(collection_uri):
+    """Recursively build RDF graph from IIIF Collection"""
+    g = Graph()
+    
+    def process_collection(uri, depth=0):
+        print(f"{'  ' * depth}Processing: {uri}")
+        collection = fetch_collection(uri)
+        
+        collection_node = URIRef(uri)
+        g.add((collection_node, RDF.type, IIIF.Collection))
+        
+        # Add label
+        if "label" in collection:
+            label_en = collection["label"].get("en", [""])[0]
+            g.add((collection_node, RDFS.label, Literal(label_en, lang="en")))
+        
+        # Process manifests
+        for item in collection.get("items", []):
+            if item.get("type") == "Manifest":
+                manifest_uri = URIRef(item["id"])
+                g.add((manifest_uri, RDF.type, IIIF.Manifest))
+                g.add((manifest_uri, DCTERMS.isPartOf, collection_node))
+                
+                # Extract enrichment
+                enrichment = extract_enrichment_from_metadata(item.get("metadata", []))
+                
+                if "wikidata" in enrichment:
+                    g.add((manifest_uri, OWL.sameAs, enrichment["wikidata"]))
+                if "aat" in enrichment:
+                    g.add((manifest_uri, DCTERMS.subject, enrichment["aat"]))
+                if "tgn" in enrichment:
+                    g.add((manifest_uri, CRM.P7_took_place_at, enrichment["tgn"]))
+        
+        # Recurse into sub-collections
+        for sub_coll in collection.get("items", []):
+            if sub_coll.get("type") == "Collection":
+                sub_uri = sub_coll["id"]
+                g.add((URIRef(sub_uri), DCTERMS.isPartOf, collection_node))
+                process_collection(sub_uri, depth + 1)
+    
+    process_collection(collection_uri)
+    return g
+
+# Execute
+root_uri = "https://mldcha.org/collection/root.json"
+knowledge_graph = build_graph_from_collection(root_uri)
+
+# Export
+knowledge_graph.serialize("mldcha_knowledge_graph.ttl", format="turtle")
+print(f"Generated {len(knowledge_graph)} triples")
+```
+
+🚨 Critical Considerations
+1. Versioning Strategy
+Problem: Original GLAM manifests may change.
+Solution:
+```json
+{
+  "id": "https://bl.org/iiif/ms123/manifest",
+  "type": "Manifest",
+  "metadata": [
+    {
+      "label": {"en": ["MLDCHA Harvest Date"]},
+      "value": {"none": ["2026-04-22T10:30:00Z"]}
+    },
+    {
+      "label": {"en": ["MLDCHA Enrichment Version"]},
+      "value": {"none": ["v2.1.0"]}
+    }
+  ]
+}
+```
+2. Collection Size Limits
+IIIF best practice: Max 1000 items per collection.
+Splitting large collections into smaller chunks:
+
+```json
+{
+  "id": "https://mldcha.org/collection/islamic-manuscripts",
+  "type": "Collection",
+  "items": [
+    {"id": "https://mldcha.org/collection/islamic-manuscripts-page-1", "type": "Collection"},
+    {"id": "https://mldcha.org/collection/islamic-manuscripts-page-2", "type": "Collection"}
+  ]
+}
+```
+3. URI Persistence
+Critical: IIIF collection URIs must be permanent.
+Pattern:
+✅ https://mldcha.org/collection/{stable-identifier}
+❌ https://mldcha.org/collection/2026/april/islamic-manuscripts
+
+
+
 ## 6. Crowdfunding & Sustainability Model
 
 The project runs **entirely through GitHub**:
