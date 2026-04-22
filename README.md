@@ -457,7 +457,7 @@ Advantages of this pattern:
 - **RDF pipeline efficiency** - Collections provide structured entry points for knowledge graph generation
 
 #### Bidirectional Integrity (within + collections arrays)
-Your observation: Two-way linking ensures graph consistency.
+Two-way linking ensures graph consistency.
 This is critical for:
 
 ```turtle
@@ -479,7 +479,7 @@ Graph integrity benefits:
 - Orphan detection - Find manifests not linked to any collection    
 
 #### Collections as RDF Pipeline Entry Point
-Your strategy: Use Collections (not raw GLAM APIs) as the authoritative source for knowledge graph generation.
+Using Collections (not raw GLAM APIs) as the authoritative source for knowledge graph generation.
 Why this is the right decision:
 
 ```python
@@ -514,13 +514,13 @@ build_knowledge_graph("https://mldcha.org/collection/root.json")
 ```
 
 Advantages:
-- Versioning - Your collections have timestamps; GLAM manifests may not
+- Versioning - Our collections have timestamps; GLAM manifests may not
 - Batch processing - Collections provide natural chunking for parallel processing
 - Incremental updates - Only re-process collections that changed
 - Quality control - Collections only include manifests that passed SHACL validation
 
 Future Improvement  & Refinements
-1. Use IIIF Presentation API 3.0 seeAlso for RDF Links
+1. Using IIIF Presentation API 3.0 `seeAlso` for RDF Links
 ```json
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
@@ -591,7 +591,7 @@ Key points:
 ✅ Pros: Human-readable in IIIF viewers
 ❌ Cons: HTML in values; not machine-actionable
 
-**Option B**: Structured metadata + seeAlso for RDF and other structured data(XML, JSOn, ...)
+**Option B**: Structured metadata + `seeAlso` for RDF and other structured data(XML, JSOn, ...)
 ```json
 "metadata": [
   {
@@ -614,7 +614,7 @@ Key points:
 ✅ Pros: Machine-readable; multilingual; clean separation
 ✅ Better: IIIF viewers can fetch and display AAT labels
 
-3. Collection Hierarchy Design Pattern
+3. Collection Hierarchy Design Pattern, but that can be achieved with logical structure.
 ```
 Root Collection
 ├── By Subject (LCSH/AAT-based)
