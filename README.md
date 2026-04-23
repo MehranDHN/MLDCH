@@ -2,7 +2,7 @@
 **Community Policy & Volunteer Guide**  
 
 **Creator: Mehrandhn**
-**Version 1.0 (Draft)**  
+**Version 1.7 (Draft)**  
 **Last updated:** April 2026  
 **Project repository:** https://github.com/MLDCHA (placeholder – to be created by core team)  
 **License:** CC-BY-SA 4.0 for documentation & data; MIT for code  
@@ -11,12 +11,16 @@
 
 ## 1. Introduction & Project Scope
 
+
 The **Multi-Layered Digital Cultural Heritage Aggregator (MLDCHA)** is an open, volunteer-driven platform focused on the harvesting, integration, enrichment, and open redistribution of Persian cultural heritage resources, primarily sourced from Galleries, Libraries, Archives, and Museums (GLAM institutions) worldwide.
-The project also leverages the Internet Archive as a complementary open-access repository to surface and preserve important resources that have not been digitized or published by major GLAM institutions, along with materials generously contributed by community volunteers.
+
+The project also leverages the **Internet Archive** as a complementary open-access repository to discover and preserve valuable resources that have not been digitized or published by major GLAM institutions, along with materials contributed by community volunteers.
+
+Our **core output** is a massive, living collection of **multi-part IIIF Collections and Manifests**, organized by curated thematic categories. Every manifest is automatically reconciled against authoritative vocabularies:
 
 ![Project Banner](https://github.com/MehranDHN/MLDCH/blob/main/images/ig_01.jpg?raw=true) 
 
-Our **core output** is a massive, living collection of **multi-part IIIF (International Image Interoperability Framework) Collections and Manifests**, organized by curated subject categories. Every manifest is automatically reconciled against the following authoritative vocabularies:
+
 
 - **AAT** – Getty Art & Architecture Thesaurus  
 - **TGN** – Getty Thesaurus of Geographic Names  
@@ -24,16 +28,16 @@ Our **core output** is a massive, living collection of **multi-part IIIF (Intern
 - **LCTGM** – Library of Congress Thesaurus for Graphic Materials  
 - **Wikidata** – for additional global identifiers and multilingual labels  
 
+
 The entire system is built as a **public GitHub-first community** with transparent agenda, governance, version-controlled workflows, and **crowdfunding integrated directly through GitHub Sponsors, GitHub Discussions, and issue-level sponsorships**. No central institution owns the data; the community collectively stewards it.
 
-**Key principles**  
+**Key Principles**  
 - Open standards only (IIIF, RDF, OWL, SHACL, Linked Open Data)  
-- Radical interoperability and reusability  
-- Ethical sourcing and respect for source institutions’ rights  
-- Merit-based contribution (skills > creden fortials)  
-- Full transparency via Git history 
+- Radical interoperability and reusability (FAIR principles)  
+- Ethical sourcing and respect for source institutions  
+- Merit-based contribution (skills > credentials)  
+- Full transparency via Git history  
 - Full observability with **Knowldge Graph** for future planning
-
 ---
 
 ## 2. Mission & Vision
@@ -184,6 +188,25 @@ Once all checkboxes are done and your first PR is merged, you will receive the �
 
 ## 5. Technical Architecture – The Multi-Layered Model
 The platform is deliberately separated into clear, Git-managed layers so volunteers can focus on their expertise.
+
+### 5.1 Ontology Governance and IIIF-RDF Integration Approach
+
+The MLDCHA project adopts a **IIIF-First Semantic Architecture** that tightly integrates a custom hierarchical OWL ontology with the IIIF Presentation API and a rich RDF knowledge graph.
+
+#### Core Principles
+- IIIF Collections serve as the **single source of truth** for discovery, navigation, and aggregation while leaving all original GLAM manifests untouched.
+- A lightweight, extensible OWL ontology provides semantic structure and class hierarchies.
+- RDF acts as the enriched, linked-data layer that powers reconciliation, agent modeling, and complex relationships.
+- All enriched semantics are attached via `seeAlso` links and `metadata[]` fields, never by altering source manifests.
+
+#### Ontology Governance Rules
+- Changes to the core ontology must be proposed via Pull Request and reviewed by at least one `Data Science volunteer` and one `Humanities expert`.
+- All new classes and properties require corresponding SHACL shapes.
+- Major ontology changes are announced in community calls and documented with migration examples.
+- Wikidata Q-items and external vocabularies (AAT, TGN, LCSH) are treated as external authorities — we link to them but do not duplicate their content.
+
+This hybrid approach ensures maximum interoperability, respect for source institutions, and long-term maintainability while enabling the construction of a large-scale Persian and global cultural heritage knowledge graph.
+
 ![MLDCHA Architecture Overview](/images/mldcha_architecture_fixed.svg)
 ### Layer 1: Harvesting & Connectors (Data Acquisition)
 - **Goal**: Pull raw metadata and images from GLAM sources.  
