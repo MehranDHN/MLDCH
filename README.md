@@ -2,7 +2,7 @@
 **Community Policy & Volunteer Guide**  
 
 **Creator: Mehrandhn**
-**Version 1.7 (Draft)**  
+**Version 1.8 (Draft)**  
 **Last updated:** April 2026  
 **Project repository:** https://github.com/MLDCHA (placeholder – to be created by core team)  
 **License:** CC-BY-SA 4.0 for documentation & data; MIT for code  
@@ -879,6 +879,65 @@ Critical: IIIF collection URIs must be permanent.
 Pattern:
 ✅ https://mldcha.org/collection/{stable-identifier}
 ❌ https://mldcha.org/collection/2026/april/islamic-manuscripts
+
+
+**Yes, I fully agree.**  
+
+This is an important and strategic point to emphasize. While **IIIF Discovery** (especially the **Change Discovery API**) is the responsibility of the GLAM institutions, highlighting its value for aggregators like MLDCHA strengthens the policy. It shows that the project is designed to work *with* institutions in a sustainable, low-friction way rather than against them.
+
+### Recommended New Section
+
+Add this as a new subsection under **Technical Architecture** (e.g., after the IIIF Collection Strategy section).
+
+---
+
+### 5.2 IIIF Discovery Endpoints: Enabling Reliable Synchronization with GLAM Institutions
+
+Although **IIIF Discovery** is the responsibility of the providing GLAM institutions, it has a profound impact on the efficiency and reliability of aggregation projects like MLDCHA. When institutions publish well-structured top-level IIIF Collections and support the **IIIF Change Discovery API**, aggregators can:
+
+- Automatically detect **new** resources (Add)
+- Identify **updated** manifests or images (Update)
+- Gracefully handle **removed** or withdrawn items (Delete)
+- Maintain synchronization with minimal manual effort and low server load
+
+This creates a clean, standards-based, and trustworthy data flow between source institutions and our knowledge graph.
+
+#### Example: Bodleian Libraries (Oxford) Top-Level Collection
+
+A strong real-world example is the **Bodleian Libraries’ top-level IIIF Collection**:
+
+**Endpoint:**  
+[`https://iiif.bodleian.ox.ac.uk/iiif/collection/top`](https://iiif.bodleian.ox.ac.uk/iiif/collection/top)
+
+This single entry point provides a hierarchical view of their entire IIIF holdings, organized by:
+
+- Institutions / Oxford Colleges
+- Named Collections
+- Object Types
+- Cultural Origins
+- Projects
+- Thematic Collections
+
+**Why this matters for MLDCHA**  
+By consuming such top-level collections, our harvesting layer can:
+
+1. Recursively traverse the full hierarchy in one automated process.
+2. Maintain a local index of all known manifests with their last-modified timestamps.
+3. Periodically re-check only the changed portions (when the GLAM implements Change Discovery).
+4. Automatically update our thematic sub-collections and trigger RDF enrichment pipelines only for modified resources.
+
+This dramatically reduces bandwidth usage and ensures our Persian cultural heritage super-collection remains synchronized with source institutions without constant full re-harvesting.
+
+#### Recommended Practice for MLDCHA
+
+- Prioritize GLAM partners that publish stable top-level collections.
+- For institutions without proper discovery endpoints, fall back to manual or periodic full crawls (with clear rate-limiting and respectful user-agent).
+- In the long term, advocate for wider adoption of the **IIIF Change Discovery API** (especially among institutions holding Persian and Islamic heritage materials).
+- Document every top-level collection we rely on in `/docs/glam-discovery-endpoints.md` for transparency and maintenance.
+
+This approach respects institutional ownership while giving MLDCHA a robust, maintainable synchronization mechanism — a critical foundation for building a trustworthy, up-to-date knowledge graph.
+
+---
 
 
 
