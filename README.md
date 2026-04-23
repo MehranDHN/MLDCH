@@ -937,6 +937,19 @@ This dramatically reduces bandwidth usage and ensures our Persian cultural herit
 
 This approach respects institutional ownership while giving MLDCHA a robust, maintainable synchronization mechanism — a critical foundation for building a trustworthy, up-to-date knowledge graph.
 
+
+### 5.3 Learning from Europeana: IIIF Synchronization Strategy
+
+Europeana has pioneered large-scale IIIF aggregation by heavily promoting and piloting the **IIIF Change Discovery API**. This allows data providers to notify Europeana of new, updated, or deleted resources in a clean, incremental way, significantly reducing harvesting overhead.
+
+**MLDCHA’s Position**  
+While we admire Europeana’s mature infrastructure, our project deliberately chooses a **lighter, more respectful overlay model**:
+- We **never modify or duplicate** original GLAM manifests.
+- Our hierarchical IIIF Collections serve as the authoritative index and entry point for our RDF knowledge graph.
+- We will consume top-level IIIF Collections (e.g. [Bodleian’s top collection](https://iiif.bodleian.ox.ac.uk/iiif/collection/top)) and, as soon as practical, implement support for the **IIIF Change Discovery API** to achieve efficient, reliable synchronization (Add/Update/Delete).
+
+This hybrid approach gives us the best of both worlds: Europeana-level synchronization capability **without** compromising our core principle of leaving source manifests untouched.
+
 ---
 
 
