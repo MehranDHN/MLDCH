@@ -413,11 +413,13 @@ Why this is important?
 - **Sustainability** - If a GLAM updates their manifest, you can re-harvest without conflict
 - **Legal clarity** - You're aggregating, not transforming institutional data
 - **Interoperability** - Other tools can consume original manifests without your interpretation layer
+- **Future-proof and extensible** - New thematic sub-collections can be added without touching existing data.
+Volunteers can curate subject-based Collections (e.g., `/collections/persian-shahnama.json`) that reference manifests from many GLAMs + Internet Archive
 
 This also mirrors `Europeana`, `DPLA`, and `Biblissima`'s aggregation models.
 
 #### IIIF Collections as Metadata Container Layer
-Embed enriched RDF metadata in IIIF Collection entries, not in manifests. This is exactly the approach that heve been used in [IIIFDexir](https://github.com/MehranDHN/MLDCH).
+Embedding enriched RDF metadata in IIIF Collection entries, not in manifests. This is exactly the approach that heve been used in [IIIFDexir](https://github.com/MehranDHN/MLDCH).
 
 ```
 Root Collection
