@@ -1,0 +1,237 @@
+<svg width="100%" viewBox="0 0 680 980" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>MLDCHA Harvesting Configuration and State Machine Pipeline</title>
+<desc>Detailed architecture showing the harvesting config file structure, connector types, and state machine orchestration at the beginning of the MLDCH pipeline</desc>
+
+<style>
+/* Color ramps for light mode */
+.c-blue rect, .c-blue circle, .c-blue ellipse { fill: #E6F1FB; stroke: #185FA5; }
+.c-purple rect, .c-purple circle, .c-purple ellipse { fill: #EEEDFE; stroke: #534AB7; }
+.c-teal rect, .c-teal circle, .c-teal ellipse { fill: #E1F5EE; stroke: #0F6E56; }
+.c-coral rect, .c-coral circle, .c-coral ellipse { fill: #FAECE7; stroke: #993C1D; }
+.c-pink rect, .c-pink circle, .c-pink ellipse { fill: #FBEAF0; stroke: #993556; }
+.c-amber rect, .c-amber circle, .c-amber ellipse { fill: #FAEEDA; stroke: #854F0B; }
+.c-green rect, .c-green circle, .c-green ellipse { fill: #EAF3DE; stroke: #3B6D11; }
+.c-gray rect, .c-gray circle, .c-gray ellipse { fill: #F1EFE8; stroke: #5F5E5A; }
+
+/* Text colors */
+.c-blue .th, .c-blue .t { fill: #042C53; }
+.c-blue .ts { fill: #0C447C; }
+.c-purple .th, .c-purple .t { fill: #26215C; }
+.c-purple .ts { fill: #3C3489; }
+.c-teal .th, .c-teal .t { fill: #04342C; }
+.c-teal .ts { fill: #085041; }
+.c-coral .th, .c-coral .t { fill: #4A1B0C; }
+.c-coral .ts { fill: #712B13; }
+.c-pink .th, .c-pink .t { fill: #4B1528; }
+.c-pink .ts { fill: #72243E; }
+.c-amber .th, .c-amber .t { fill: #412402; }
+.c-amber .ts { fill: #633806; }
+.c-green .th, .c-green .t { fill: #173404; }
+.c-green .ts { fill: #27500A; }
+.c-gray .th, .c-gray .t { fill: #2C2C2A; }
+.c-gray .ts { fill: #444441; }
+
+/* Default text */
+.th { font-family: sans-serif; font-size: 14px; font-weight: 500; fill: #2C2C2A; }
+.ts { font-family: sans-serif; font-size: 12px; font-weight: 400; fill: #444441; }
+.t { font-family: sans-serif; font-size: 14px; font-weight: 400; fill: #2C2C2A; }
+
+/* Arrow */
+.arr { stroke: #888780; stroke-width: 1.5; fill: none; }
+
+/* Hover effect */
+.node { cursor: pointer; }
+.node:hover rect { opacity: 0.85; }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .c-blue rect, .c-blue circle, .c-blue ellipse { fill: #0C447C; stroke: #B5D4F4; }
+  .c-purple rect, .c-purple circle, .c-purple ellipse { fill: #3C3489; stroke: #CECBF6; }
+  .c-teal rect, .c-teal circle, .c-teal ellipse { fill: #085041; stroke: #9FE1CB; }
+  .c-coral rect, .c-coral circle, .c-coral ellipse { fill: #712B13; stroke: #F5C4B3; }
+  .c-pink rect, .c-pink circle, .c-pink ellipse { fill: #72243E; stroke: #F4C0D1; }
+  .c-amber rect, .c-amber circle, .c-amber ellipse { fill: #633806; stroke: #FAC775; }
+  .c-green rect, .c-green circle, .c-green ellipse { fill: #27500A; stroke: #C0DD97; }
+  .c-gray rect, .c-gray circle, .c-gray ellipse { fill: #444441; stroke: #B4B2A9; }
+  
+  .c-blue .th, .c-blue .t { fill: #E6F1FB; }
+  .c-blue .ts { fill: #85B7EB; }
+  .c-purple .th, .c-purple .t { fill: #EEEDFE; }
+  .c-purple .ts { fill: #AFA9EC; }
+  .c-teal .th, .c-teal .t { fill: #E1F5EE; }
+  .c-teal .ts { fill: #5DCAA5; }
+  .c-coral .th, .c-coral .t { fill: #FAECE7; }
+  .c-coral .ts { fill: #F0997B; }
+  .c-pink .th, .c-pink .t { fill: #FBEAF0; }
+  .c-pink .ts { fill: #ED93B1; }
+  .c-amber .th, .c-amber .t { fill: #FAEEDA; }
+  .c-amber .ts { fill: #EF9F27; }
+  .c-green .th, .c-green .t { fill: #EAF3DE; }
+  .c-green .ts { fill: #97C459; }
+  .c-gray .th, .c-gray .t { fill: #C2C0B6; }
+  .c-gray .ts { fill: #9C9A92; }
+  
+  .th { fill: #C2C0B6; }
+  .ts { fill: #9C9A92; }
+  .t { fill: #C2C0B6; }
+  
+  .arr { stroke: #73726C; }
+}
+</style>
+
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Title -->
+<g>
+  <text class="th" x="340" y="32" text-anchor="middle" style="font-size: 16px; font-weight: 500;">MLDCHA Harvesting Layer Architecture</text>
+  <text class="ts" x="340" y="50" text-anchor="middle">Configuration-driven state machine orchestration</text>
+</g>
+
+<!-- Configuration File Container -->
+<g class="c-amber">
+  <rect x="40" y="80" width="600" height="340" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="108" text-anchor="middle">harvesting-config.json</text>
+  <text class="ts" x="340" y="126" text-anchor="middle">Central configuration defining all GLAM sources and connector behavior</text>
+</g>
+
+<!-- Config Structure -->
+<g class="node c-amber">
+  <rect x="60" y="145" width="280" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="200" y="165" text-anchor="middle">GLAM source definitions</text>
+  <text class="ts" x="200" y="185" text-anchor="middle">id, name, type, base_url, enabled, schedule</text>
+</g>
+
+<g class="node c-amber">
+  <rect x="360" y="145" width="260" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="490" y="165" text-anchor="middle">Connector options</text>
+  <text class="ts" x="490" y="185" text-anchor="middle">rate limits, robots.txt, change discovery</text>
+</g>
+
+<!-- Connector Types -->
+<text class="ts" x="70" y="230" style="font-weight: 500;">Supported connector types:</text>
+
+<g class="node c-teal">
+  <rect x="70" y="245" width="125" height="44" rx="6" stroke-width="0.5"/>
+  <text class="t" x="132" y="270" text-anchor="middle">iiif</text>
+</g>
+
+<g class="node c-teal">
+  <rect x="210" y="245" width="125" height="44" rx="6" stroke-width="0.5"/>
+  <text class="t" x="272" y="270" text-anchor="middle">restful</text>
+</g>
+
+<g class="node c-teal">
+  <rect x="350" y="245" width="125" height="44" rx="6" stroke-width="0.5"/>
+  <text class="t" x="412" y="270" text-anchor="middle">custom_json</text>
+</g>
+
+<g class="node c-teal">
+  <rect x="490" y="245" width="125" height="44" rx="6" stroke-width="0.5"/>
+  <text class="t" x="552" y="270" text-anchor="middle">custom_xml</text>
+</g>
+
+<!-- Example Sources -->
+<text class="ts" x="70" y="320" style="font-weight: 500;">Example GLAM configurations:</text>
+
+<g class="node c-green">
+  <rect x="70" y="335" width="150" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="145" y="356" text-anchor="middle">Bodleian (IIIF)</text>
+</g>
+
+<g class="node c-green">
+  <rect x="235" y="335" width="140" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="305" y="356" text-anchor="middle">Met Museum (REST)</text>
+</g>
+
+<g class="node c-green">
+  <rect x="390" y="335" width="130" height="36" rx="6" stroke-width="0.5"/>
+  <text class="ts" x="455" y="356" text-anchor="middle">Europeana (REST)</text>
+</g>
+
+<!-- Segments & Credentials -->
+<g class="node c-amber">
+  <rect x="70" y="385" width="270" height="24" rx="4" stroke-width="0.5"/>
+  <text class="ts" x="205" y="400" text-anchor="middle">segments: thematic filtering queries</text>
+</g>
+
+<g class="node c-amber">
+  <rect x="360" y="385" width="260" height="24" rx="4" stroke-width="0.5"/>
+  <text class="ts" x="490" y="400" text-anchor="middle">credentials: API keys via env vars</text>
+</g>
+
+<!-- Arrow to State Machine -->
+<line x1="340" y1="420" x2="340" y2="470" class="arr" marker-end="url(#arrow)"/>
+
+<!-- State Machine Orchestrator -->
+<g class="c-purple">
+  <rect x="40" y="470" width="600" height="280" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="498" text-anchor="middle">Harvesting State Machine Orchestrator</text>
+  <text class="ts" x="340" y="516" text-anchor="middle">harvesting/orchestrator.py — lightweight GitHub Actions-friendly state machine</text>
+</g>
+
+<!-- State Machine Steps -->
+<g class="node c-purple">
+  <rect x="60" y="540" width="560" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="558" text-anchor="middle">Step 1: Read configuration</text>
+  <text class="ts" x="340" y="576" text-anchor="middle">Parse harvesting-config.json and load GLAM definitions</text>
+</g>
+
+<line x1="340" y1="590" x2="340" y2="608" class="arr" marker-end="url(#arrow)"/>
+
+<g class="node c-purple">
+  <rect x="60" y="608" width="560" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="626" text-anchor="middle">Step 2: Determine which GLAMs to run</text>
+  <text class="ts" x="340" y="644" text-anchor="middle">Filter by schedule (daily, weekly), enabled flag, last successful run timestamp</text>
+</g>
+
+<line x1="340" y1="658" x2="340" y2="676" class="arr" marker-end="url(#arrow)"/>
+
+<g class="node c-purple">
+  <rect x="60" y="676" width="560" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="694" text-anchor="middle">Step 3: Trigger appropriate connector</text>
+  <text class="ts" x="340" y="712" text-anchor="middle">Route to IIIFConnector, RESTConnector, or CustomJSONConnector based on type</text>
+</g>
+
+<!-- Arrow to Connectors -->
+<line x1="340" y1="750" x2="340" y2="790" class="arr" marker-end="url(#arrow)"/>
+
+<!-- Connectors in Action -->
+<g class="c-blue">
+  <rect x="40" y="790" width="600" height="150" rx="12" stroke-width="0.5"/>
+  <text class="th" x="340" y="818" text-anchor="middle">Pluggable Connectors</text>
+  <text class="ts" x="340" y="836" text-anchor="middle">Each connector respects pagination, emits JSONL logs, returns structured stats</text>
+</g>
+
+<!-- Connector Examples -->
+<g class="node c-blue">
+  <rect x="60" y="855" width="175" height="60" rx="6" stroke-width="0.5"/>
+  <text class="th" x="147" y="872" text-anchor="middle">IIIFConnector</text>
+  <text class="ts" x="147" y="890" text-anchor="middle">Top collection + Change</text>
+  <text class="ts" x="147" y="905" text-anchor="middle">Discovery API support</text>
+</g>
+
+<g class="node c-blue">
+  <rect x="252" y="855" width="175" height="60" rx="6" stroke-width="0.5"/>
+  <text class="th" x="339" y="872" text-anchor="middle">RESTConnector</text>
+  <text class="ts" x="339" y="890" text-anchor="middle">Standard pagination,</text>
+  <text class="ts" x="339" y="905" text-anchor="middle">robots.txt compliance</text>
+</g>
+
+<g class="node c-blue">
+  <rect x="444" y="855" width="175" height="60" rx="6" stroke-width="0.5"/>
+  <text class="th" x="531" y="872" text-anchor="middle">CustomJSONConnector</text>
+  <text class="ts" x="531" y="890" text-anchor="middle">Custom parser function,</text>
+  <text class="ts" x="531" y="905" text-anchor="middle">flexible endpoint handling</text>
+</g>
+
+<!-- Legend -->
+<g>
+  <text class="ts" x="40" y="960" style="font-weight: 500;">Key features:</text>
+  <text class="ts" x="40" y="975">• Centralized configuration-driven architecture • Schedule-based execution (daily/weekly)</text>
+</g>
+
+</svg>
