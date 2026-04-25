@@ -427,6 +427,27 @@ This hybrid approach ensures maximum interoperability, respect for source instit
   - `README.md` with usage, rate limits, authentication notes  
   - GitHub Action workflow for periodic harvesting  
   - Sample harvested JSON-LD output  
+![Harvesting configuration file, connectors, and state machine](images/mldcha_harvesting_config_state_machine.svg)
+
+- Top layer (Amber): The `harvesting-config.json` file structure, including:
+
+  - GLAM source definitions with metadata
+  - Connector options (rate limits, robots.txt compliance, Change Discovery API)
+  - Four supported connector types: `iiif`, `restful`, `custom_json`, `custom_xml`
+  - Example GLAM configurations (`Bodleian`, `Met Museum`, `Europeana`, `Smithsonian`)
+  - Segments for thematic filtering and credential management
+
+- Middle layer (Purple): The `State Machine Orchestrator` workflow showing three sequential steps:
+
+  - Reading the configuration file
+  - Determining which GLAMs to run based on schedule, enabled status, and last successful run
+  - Triggering the appropriate connector based on type
+
+- Bottom layer (Blue): The three main pluggable connectors:
+
+  - IIIFConnector: Handles `IIIF Presentation API` endpoints with `Change Discovery` support
+  - RESTConnector: Standard `REST API` handling with pagination and `robots.txt` compliance
+  - CustomJSONConnector: Flexible endpoint handling with custom parser functions
 
 ### Layer 2: Integration & Enrichment (Semantic Layer)
 - **Goal**: Convert everything into a unified RDF graph that is flexible across multiple OWL ontologies.  
