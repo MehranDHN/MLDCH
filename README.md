@@ -189,7 +189,214 @@ Once all checkboxes are done and your first PR is merged, you will receive the �
 ## 5. Technical Architecture – The Multi-Layered Model
 The platform is deliberately separated into clear, Git-managed layers so volunteers can focus on their expertise.
 
-### 5.1 Ontology Governance and IIIF-RDF Integration Approach
+### 5.1 Harvesting Config File (harvesting-config.json)
+- At the very beginning of the Pipeline:
+
+```json
+{
+  "$schema": "https://mldcha.org/schema/harvesting-config-v2.json",
+  "version": "2.0",
+  "lastUpdated": "2026-04-24",
+  "glams": [
+    {
+      "id": "bodleian-oxford",
+      "name": "Bodleian Libraries, Oxford",
+      "type": "iiif",
+      "base_url": "https://iiif.bodleian.ox.ac.uk/iiif/collection/top",
+      "enabled": true,
+      "schedule": "daily",
+      "credentials": {},
+      "segments": [],
+      "connector_options": {
+        "respect_robots_txt": true,
+        "max_concurrency": 8,
+        "use_change_discovery": true,
+        "change_discovery_endpoint": "https://iiif.bodleian.ox.ac.uk/activity/all-changes"
+      }
+    },
+
+    {
+      "id": "metropolitan-museum",
+      "name": "The Metropolitan Museum of Art",
+      "type": "restful",
+      "base_url": "https://collectionapi.metmuseum.org/public/collection/v1/search",
+      "enabled": true,
+      "schedule": "daily",
+      "credentials": {
+        "api_key_env": "MET_API_KEY"
+      },
+      "segments": [
+        {
+          "name": "Islamic Art",
+          "query": "department=Islamic&hasImages=true",
+          "priority": "high"
+        },
+        {
+          "name": "Indo-Persian",
+          "query": "department=Asian&culture=Persian&hasImages=true",
+          "priority": "high"
+        }
+      ],
+      "connector_options": {
+        "pagination_pattern": "?q={query}&page={page}&per_page=100",
+        "respect_robots_txt": true
+      }
+    },
+
+    {
+      "id": "smithsonian",
+      "name": "Smithsonian Institution",
+      "type": "restful",
+      "base_url": "https://api.si.edu/search",
+      "enabled": true,
+      "schedule": "daily",
+      "credentials": {
+        "api_key_env": "SMITHSONIAN_API_KEY"
+      },
+      "segments": [
+        {
+          "name": "Freer|Sackler (Islamic & Persian)",
+          "query": "edanmdm.collection=FS&topic=Islamic+Art",
+          "priority": "high"
+        },
+        {
+          "name": "National Museum of Asian Art - Persian Manuscripts",
+          "query": "edanmdm.collection=NMAA&culture=Persian",
+          "priority": "high"
+        }
+      ],
+      "connector_options": {
+        "pagination_pattern": "?rows=100&start={offset}"
+      }
+    },
+
+    {
+      "id": "europeana",
+      "name": "Europeana",
+      "type": "restful",
+      "base_url": "https://api.europeana.eu/api/v2/search.json",
+      "enabled": true,
+      "schedule": "daily",
+      "credentials": {
+        "api_key_env": "EUROPEANA_API_KEY"
+      },
+      "segments": [],
+      "connector_options": {
+        "pagination_pattern": "?page={page}&rows=100",
+        "query": "what:manuscript OR what:shahnama OR what:calligraphy"
+      }
+    },
+
+    {
+      "id": "internet-archive-persian",
+      "name": "Internet Archive - Persian Heritage",
+      "type": "custom_json",
+      "base_url": "https://archive.org/advancedsearch.php",
+      "enabled": true,
+      "schedule": "weekly",
+      "credentials": {},
+      "segments": [],
+      "connector_options": {
+        "parser_function": "parse_internet_archive_response",
+        "pagination_pattern": "&page={page}&rows=50"
+      }
+    }
+  ]
+}
+```
+
+- Supported types (extensible):
+
+  1- `iiif` → top-level collection (or manifest list)
+  2- `restful` → standard REST API with pagination
+  3- `custom_json` → any JSON endpoint that needs a custom parser
+  4- `custom_xml` → any XML endpoint that needs a custom parser  
+
+- State Machine Orchestrator (harvesting/orchestrator.py)
+  A lightweight, GitHub-Actions-friendly state machine that:
+
+  - Reads the config
+  - Determines which `GLAM`s to run (based on schedule + last successful run)
+  - Triggers the correct connector
+  - Produces structured logs + summary report
+
+```python
+# harvesting/orchestrator.py
+import json
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, Any
+
+class HarvestingStateMachine:
+    def __init__(self, config_path: str = "config/harvesting-config.json"):
+        self.config = json.loads(Path(config_path).read_text())
+        self.log_file = Path(f"logs/harvest-{datetime.utcnow().isoformat()}.jsonl")
+        self.report = {"timestamp": datetime.utcnow().isoformat(), "glams": {}}
+
+    def run(self):
+        for glam in self.config["glams"]:
+            if not glam["enabled"]:
+                continue
+            result = self._execute_connector(glam)
+            self.report["glams"][glam["id"]] = result
+            self._log_event(glam, result)
+
+        # Write final report (Elasticsearch / Grafana friendly)
+        Path("reports/latest-harvest-report.json").write_text(json.dumps(self.report, indent=2))
+
+    def _execute_connector(self, glam: Dict[str, Any]):
+        connector_map = {
+            "iiif": IIIFConnector,
+            "restful": RESTConnector,
+            "custom_json": CustomJSONConnector,
+        }
+        connector_class = connector_map[glam["type"]]
+        connector = connector_class(glam)
+        return connector.run()   # returns {"status": "success", "added": 45, "updated": 12, "deleted": 3, ...}
+```
+- Pluggable Connectors (examples)
+  Each connector:
+
+  - Respects the pagination pattern
+  - Returns structured stats (added, updated, failed, deleted)
+  - Emits JSONL logs
+
+**Example: IIIF Connector** (uses Bodleian-style top collection + optional Change Discovery) 
+
+```python
+class IIIFConnector:
+    def run(self):
+        # 1. Fetch top-level collection
+        # 2. If Change Discovery endpoint exists → use it
+        # 3. Else → recursive crawl of items
+        # 4. For each new/changed manifest → trigger IIIF Collection update + RDF queue
+        return {"status": "success", "added": 23, "updated": 7, "deleted": 0}
+```
+(The other connectors follow the same pattern: REST uses pagination template, CustomJSON uses the parser function.)
+
+- Full Pipeline Flow (merged with previous design)
+
+  - State Machine reads harvesting-config.json → launches connectors (GitHub Action cron or manual trigger).
+  - Each connector harvests → saves raw manifests/metadata to /raw-data/{glam_id}/.
+  - Post-harvest hook: Automatically updates the relevant hierarchical IIIF Collection(s) (adds/updates/deletes pointers).
+  - Collection change triggers RDF Pipeline (reconciliation → SHACL validation → enriched RDF).
+  - Structured logs + summary report are written to /logs/ and /reports/.
+  - Elasticsearch/Grafana can ingest the JSON report for dashboards (success rate, items processed per GLAM, error trends).
+
+- Supported harvesting types:
+
+  - iiif – Top-level IIIF Collection (e.g. Bodleian /collection/top)
+  - restful – Standard REST API with pagination
+  - custom_json – Any JSON endpoint requiring a custom parser
+
+**Output**:
+
+  - Raw harvested data (never modified)
+  -Updated hierarchical IIIF Collections (our single source of truth)
+  - Structured JSONL logs + summary report (directly ingestible by - - - Elasticsearch or Grafana)
+  - Trigger to the RDF enrichment pipeline for only the changed resources
+
+### 5.2 Ontology Governance and IIIF-RDF Integration Approach
 
 The MLDCHA project adopts a **IIIF-First Semantic Architecture** that tightly integrates a custom hierarchical OWL ontology with the IIIF Presentation API and a rich RDF knowledge graph.
 
@@ -889,9 +1096,8 @@ This is an important and strategic point to emphasize. While **IIIF Discovery** 
 
 Add this as a new subsection under **Technical Architecture** (e.g., after the IIIF Collection Strategy section).
 
----
 
-### 5.2 IIIF Discovery Endpoints: Enabling Reliable Synchronization with GLAM Institutions
+### 5.3 IIIF Discovery Endpoints: Enabling Reliable Synchronization with GLAM Institutions
 
 Although **IIIF Discovery** is the responsibility of the providing GLAM institutions, it has a profound impact on the efficiency and reliability of aggregation projects like MLDCHA. When institutions publish well-structured top-level IIIF Collections and support the **IIIF Change Discovery API**, aggregators can:
 
@@ -938,7 +1144,7 @@ This dramatically reduces bandwidth usage and ensures our Persian cultural herit
 This approach respects institutional ownership while giving MLDCHA a robust, maintainable synchronization mechanism — a critical foundation for building a trustworthy, up-to-date knowledge graph.
 
 
-### 5.3 Learning from Europeana: IIIF Synchronization Strategy
+### 5.4 Learning from Europeana: IIIF Synchronization Strategy
 
 Europeana has pioneered large-scale IIIF aggregation by heavily promoting and piloting the **IIIF Change Discovery API**. This allows data providers to notify Europeana of new, updated, or deleted resources in a clean, incremental way, significantly reducing harvesting overhead.
 
@@ -1143,10 +1349,10 @@ By actively contributing to Wikidata, you directly strengthen the semantic backb
 
 ## 11. Roadmap (High-Level)
 
-**Phase 1 (0–3 months)**: Core connectors (Europeana, Getty, British Library, Smithsonian) + basic RDF pipeline  
-**Phase 2 (3–9 months)**: SHACL validation suite + first 5 thematic IIIF collections  
-**Phase 3 (9–18 months)**: Public API + community dashboard + 50+ connectors  
-**Phase 4**: Integration with major IIIF viewers and Linked Open Data cloud  
+**Phase 1**: Core harvesting orchestrator + first thematic IIIF Collections  
+**Phase 2**: Full RDF pipeline + SHACL validation + Wikidata campaigns  
+**Phase 3**: Change Discovery API integration + public dashboard  
+**Phase 4**: Advanced AI applications over the knowledge graph
 
 ---
 
